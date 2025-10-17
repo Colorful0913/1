@@ -1,0 +1,72 @@
+8051 Assembler           Version 1.00   01/13/114 16:23:21    Page 1
+E:\教材\2013年\邓胡滨\例题\Cha13\13-1\C51\CHA13-1.C
+
+
+
+                                                                                                                                                                                                                                                                                                                                /*实验一，数据传送程序，文件名：CHA13-1.c*/
+                        #include<reg52.h>
+                        #include<intrins.h>
+                        #define uint unsigned int
+                        #define uchar unsigned char
+                        uchar  idata   naddr[0x10];
+                        uchar  xdata   waddr[0x10];
+                        uchar  data    count;
+                        uchar i,j;
+                        /***********ms延时程序******************/
+                        void delay(uint z)//延时函数
+                        {
+                               uint i;
+                        }
+
+                        }
+ **** Error  :  Invalid instruction -> }
+                        /************片内数据区初始化***************/
+                        void Init(void)
+                        {
+   19 0000                      
+                                {
+
+                                {
+ **** Error  :  Invalid instruction -> {
+                                        ndata[i]=i
+                                }
+                        }
+                        /*************片内外数据传送**************/
+                        void    nwsend(void)
+                        {
+                                {
+
+                                {
+ **** Error  :  Invalid instruction -> {
+                                }
+
+                                }
+ **** Error  :  Invalid instruction -> }
+                        }
+                        /*********LED显示子程序**************/
+                        void Display()
+                        {
+                               {
+
+                               {
+ **** Error  :  Invalid instruction -> {
+                               }
+                        }
+                        /************主函数****************/
+                        void main()
+                        {
+                               while(1)  {     
+                               }
+
+                               }
+ **** Error  :  Invalid instruction -> }
+8051 Assembler           Version 1.00   01/13/114 16:23:21    Page 2
+E:\教材\2013年\邓胡滨\例题\Cha13\13-1\C51\CHA13-1.C
+
+
+
+                        }
+
+Defined Symbols:
+
+Defined Labels:

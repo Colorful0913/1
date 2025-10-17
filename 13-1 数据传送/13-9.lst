@@ -1,0 +1,264 @@
+A51 MACRO ASSEMBLER  13_9                                                                 01/19/2016 10:09:57 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02b
+OBJECT MODULE PLACED IN .\13-9.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE ..\13-9\A51\13-9.A51 SET(SMALL) DEBUG PRINT(.\13-9.lst) OBJECT(.\13-9.o
+                      bj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;ÎÄ¼þÃû£º13-8.A51    
+                       2     
+0000                   3           ORG     0000H
+                       4     
+  FF7C                 5     PORTA8255 EQU  0FF7CH  ;¶¨Òå8255A¿ÚµØÖ·£¬×ÖÐÎ¿Ú 
+                       6     
+  FF7D                 7     PORTB8255 EQU  0FF7DH  ;¶¨Òå8255B¿ÚµØÖ·£¬×ÖÎ»¿Ú 
+                       8     
+  FF7E                 9     PORTC8255 EQU  0FF7EH  ;¶¨Òå8255C¿ÚµØÖ·£¬µÍ4Î»ÐÐÏß£¬¸ß4Î»ÁÐÏß 
+                      10     
+  FF7F                11     CTRL8255 EQU  0FF7FH  ;¶¨Òå8255¿ØÖÆ¿ÚµØÖ· 
+                      12     
+  0004                13     NUMB  EQU  04H   ;ÏÔÊ¾µ¥Ôª¸öÊ;
+                      14     
+  0040                15     CELL  EQU  40H   ;¼üÖµ±£´æµ¥Ôª
+                      16     
+                      17     ;Ö÷³ÌÐò
+                      18     
+0000 7481             19     MAIN:   MOV  A,#81H   ;A¡¢B¡¢C¿Ú·½Ê½0£¬A¡¢B¡¢C¿Ú¸ß4Î»ÊäÈë£¬C¿ÚµÍ4Î»ÊäÈë
+                      20     
+0002 90FF7F           21       MOV  DPTR,#CTRL8255
+                      22     
+0005 F0               23       MOVX @DPTR,A
+                      24     
+0006 7979             25       MOV  R1,#79H
+                      26     
+0008 7F04             27        MOV  R7,#NUMB
+                      28     
+000A 120018           29     MAIN2: LCALL KEY
+                      30     
+000D E540             31       MOV  A,CELL 
+                      32     
+000F F7               33       MOV  @R1,A
+                      34     
+0010 09               35       INC  R1
+                      36     
+0011 120075           37       LCALL DISPLAY
+                      38     
+0014 DFF4             39       DJNZ R7,MAIN2
+                      40     
+0016 0100             41       AJMP MAIN
+                      42     
+0018                  43     KEY:    
+                      44     
+0018 116A             45       ACALL  KS1
+                      46     
+001A 7005             47       JNZ    LK1
+                      48     
+001C 120075           49     NI:     LCALL  DISPLAY             
+                      50     
+001F 0118             51       AJMP   KEY
+                      52     
+0021 120075           53     LK1:  LCALL  DISPLAY  ;ÑÓÊ±È¥¶¶¶¯                
+                      54     
+0024 120075           55       LCALL  DISPLAY             
+                      56     
+0027 12006A           57       LCALL  KS1            
+A51 MACRO ASSEMBLER  13_9                                                                 01/19/2016 10:09:57 PAGE     2
+
+                      58     
+002A 7004             59       JNZ    LK2            
+                      60     
+002C 120075           61       LCALL  DISPLAY            
+                      62     
+002F 22               63       RET
+                      64     
+0030 7AEF             65     LK2:  MOV    R2,#0EFH  ;Éè¶¨ÁÐµÄÉ¨ÃèÄ£Ê½£¬µÚ0ÁÐ                
+                      66     
+0032 7C00             67       MOV    R4,#00H   ;ÁÐ³õÖµ
+                      68     
+0034 90FF7E           69     LK4:   MOV    DPTR,#PORTC8255 ;ÐÐ¡¢ÁÐ¿ÚµØÖ·               
+                      70     
+0037 EA               71       MOV    A,R2             
+                      72     
+0038 F0               73       MOVX   @DPTR,A          ;µÚ0ÁÐÊä³ö0   
+                      74     
+0039 E0               75       MOVX   A,@DPTR          ;¶ÁÐÐÖµ  
+                      76     
+003A 20E004           77       JB      ACC.0,LONE       ;ÅÐ¶ÏµÚ0ÐÐÊÇ·ñÓÐ¼ü°´ÏÂ£¿ÎÞ×ªLONE     
+                      78     
+003D 7400             79       MOV    A,#00H            ;ÓÐ¼ü£¬µÚ0ÐÐÐÐÊ×ÖµËÍA
+                      80     
+003F 0154             81       AJMP   LKP     ;×ªLKP
+                      82     
+0041 20E104           83     LONE:  JB     ACC.1,LTW0        ;ÅÐ¶ÏµÚ1ÐÐÊÇ·ñÓÐ¼ü°´ÏÂ£¿ÎÞ×ªLTWO     
+                      84     
+0044 7404             85       MOV    A,#04H            ;ÓÐ¼ü£¬µÚ1ÐÐÐÐÊ×ÖµËÍA  
+                      86     
+0046 0154             87       AJMP   LKP
+                      88     
+0048 20E204           89     LTW0:  JB     ACC.2,LTHR         ;ÅÐ¶ÏµÚ2ÐÐÊÇ·ñÓÐ¼ü°´ÏÂ£¿ÎÞ×ªLTHR      
+                      90     
+004B 7408             91       MOV    A,#08H             ;ÓÐ¼ü£¬µÚ2ÐÐÐÐÊ×ÖµËÍA 
+                      92     
+004D 0154             93       AJMP   LKP
+                      94     
+004F 20E30D           95     LTHR: JB     ACC.3,NEXT          ;ÅÐ¶ÏµÚ3ÐÐÊÇ·ñÓÐ¼ü°´ÏÂ£¿ÎÞ×ªLTHR     
+                      96     
+0052 740C             97       MOV    A,#0CH      ;ÓÐ¼ü£¬µÚ3ÐÐÐÐÊ×ÖµËÍA
+                      98     
+0054 2C               99     LKP:   ADD    A,R4                ;ÐÐÊ×Öµ+ÁÐÖµµÃ¼üÖµ
+                     100     
+0055 F540            101       MOV  CELL,A    ;±£´æ¼üÖµ
+                     102     
+0057 120075          103     LK3:   LCALL  DISPLAY              ;µ÷ÓÃÏÔÊ¾³ÌÐò£¬ÓÃÓÚÑÓÊ±
+                     104     
+005A 116A            105       ACALL  KS1              ;ÅÐ¶ÏÓÐ¼ü°´ÏÂÂð£¿
+                     106     
+005C 70F9            107       JNZ    LK3               ;Ñ­»·µÈ´¼üÊÍ·Å             
+                     108     
+005E 22              109       RET
+                     110     
+005F 0C              111     NEXT:   INC    R4    ;ÁÐÖµ¼Ó1              
+                     112     
+0060 EA              113       MOV    A,R2             ;ÁÐÉ¨ÃèÂëËÍA
+                     114     
+0061 30E704          115       JNB    ACC.7,KND        ;4ÁÐÉ¨ÃèÍêÁËÂð£ºÍêÁË×ªKND     
+                     116     
+0064 23              117       RL     A               ;Î´Íê£¬×óÒÆ1Î»
+                     118     
+0065 FA              119       MOV    R2,A             ;±£´æÉ¨ÃèÂë 
+                     120     
+0066 0134            121       AJMP   LK4    ;×ªÈ¥É¨ÃèÏÂÒ»ÁÐ
+                     122     
+0068 0118            123     KND:   AJMP   KEY 
+A51 MACRO ASSEMBLER  13_9                                                                 01/19/2016 10:09:57 PAGE     3
+
+                     124     
+006A 90FF7E          125     KS1:   MOV    DPTR,#PORTC8255             
+                     126     
+006D 740F            127       MOV    A,#0FH             
+                     128     
+006F F0              129       MOVX   @DPTR,A             
+                     130     
+0070 E0              131       MOVX   A,@DPTR             
+                     132     
+0071 F4              133       CPL  A      
+                     134     
+0072 540F            135       ANL    A,#0FH             
+                     136     
+0074 22              137       RET
+                     138     
+                     139     
+                     140     
+                     141     
+                     142     
+                     143     
+                     144        
+                     145     
+0075                 146     DISPLAY:
+                     147     
+0075 7879            148        MOV    R0,#79H  ;ÏÔÊ¾»º³åÇøÊ×µØÖ·ËÍR0
+                     149     
+0077 7B01            150           MOV    R3,#01H  ;×ÖÎ»ÂëËÍR3±£´æ
+                     151     
+0079 EB              152           MOV    A,R3
+                     153     
+007A 90FF7D          154     LD0:  MOV  DPTR,#PORTB8255
+                     155     
+007D F0              156        MOVX   @DPTR,A  ;×ÖÎ»ÂëËÍÎ»Âë¶Ë¿ÚPB£¬µãÁÁ¸ÃÎ»
+                     157     
+007E E6              158           MOV    A,@R0   ;È¡³öÒ»Î»ÒªÏÔÊ¾Ê¾Ý
+                     159     
+007F 900093          160           MOV    DPTR,#TAB1  ;±íÊ×µØÖ·ËÍDPTR
+                     161     
+0082 93              162           MOVC   A,@A+DPTR  ;²é±í»ñÈ¡¸ÃÊ¾ÝµÄ×ÖÐÍÂë
+                     163     
+0083 90FF7C          164        MOV  DPTR,#PORTA8255   
+                     165     
+0086 F0              166     DIR1: MOVX   @DPTR,A  ;×ÖÐÍÂëËÍ¶ÎÂë¶Ë¿ÚPA
+                     167     
+0087 11A6            168           ACALL  DL11   ;µ÷ÓÃÑÓÊ±×Ó³ÌÐò
+                     169     
+0089 08              170        INC    R0    ;»º³åÇøµØÖ·+1
+                     171     
+008A EB              172           MOV    A,R3   ;È¡³öÎ»Âë
+                     173     
+008B 20E304          174           JB     ACC.3,LD1  ;ÅÐ¶Ï4Î»ÊÂë¹ÜÏÔÊ¾ÍêÂð£¿ÏÔÊ¾Íê×ªLD1
+                     175     
+008E 23              176           RL     A    ;Î´Íê£¬×óÒÆÒ»Î»
+                     177     
+008F FB              178           MOV    R3,A   ;±£´æÎ»Âë
+                     179     
+0090 017A            180           AJMP   LD0
+                     181     
+0092 22              182     LD1:  RET     ;×Ó³ÌÐò·µ»Ø
+                     183     
+0093 C0F9A4B0        184     TAB1:  DB    0C0H,0F9H,0A4H,0B0H,99H,92H
+0097 9992                    
+                     185     
+0099 82F88090        186           DB     82H,0F8H,80H,90H,88H,83H,0C6H,0A1H    
+009D 8883C6A1                
+                     187     
+A51 MACRO ASSEMBLER  13_9                                                                 01/19/2016 10:09:57 PAGE     4
+
+00A1 868EBFFF        188           DB     86H,8EH,0BFH,0FFH,0FFH
+00A5 FF                      
+                     189     
+                     190     
+00A6 7F05            191     DL11: MOV    R7,#05H
+                     192     
+00A8 7EFF            193     DL:   MOV    R6,#0FFH
+                     194     
+00AA DEFE            195     DL6:  DJNZ   R6,DL6
+                     196     
+00AC DFFA            197           DJNZ   R7,DL
+                     198     
+00AE 22              199           RET     
+                     200     
+                     201        END
+A51 MACRO ASSEMBLER  13_9                                                                 01/19/2016 10:09:57 PAGE     5
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+CELL . . . . . . .  N NUMB   0040H   A   
+CTRL8255 . . . . .  N NUMB   FF7FH   A   
+DIR1 . . . . . . .  C ADDR   0086H   A   
+DISPLAY. . . . . .  C ADDR   0075H   A   
+DL . . . . . . . .  C ADDR   00A8H   A   
+DL11 . . . . . . .  C ADDR   00A6H   A   
+DL6. . . . . . . .  C ADDR   00AAH   A   
+KEY. . . . . . . .  C ADDR   0018H   A   
+KND. . . . . . . .  C ADDR   0068H   A   
+KS1. . . . . . . .  C ADDR   006AH   A   
+LD0. . . . . . . .  C ADDR   007AH   A   
+LD1. . . . . . . .  C ADDR   0092H   A   
+LK1. . . . . . . .  C ADDR   0021H   A   
+LK2. . . . . . . .  C ADDR   0030H   A   
+LK3. . . . . . . .  C ADDR   0057H   A   
+LK4. . . . . . . .  C ADDR   0034H   A   
+LKP. . . . . . . .  C ADDR   0054H   A   
+LONE . . . . . . .  C ADDR   0041H   A   
+LTHR . . . . . . .  C ADDR   004FH   A   
+LTW0 . . . . . . .  C ADDR   0048H   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+MAIN2. . . . . . .  C ADDR   000AH   A   
+NEXT . . . . . . .  C ADDR   005FH   A   
+NI . . . . . . . .  C ADDR   001CH   A   
+NUMB . . . . . . .  N NUMB   0004H   A   
+PORTA8255. . . . .  N NUMB   FF7CH   A   
+PORTB8255. . . . .  N NUMB   FF7DH   A   
+PORTC8255. . . . .  N NUMB   FF7EH   A   
+TAB1 . . . . . . .  C ADDR   0093H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

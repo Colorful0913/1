@@ -1,0 +1,93 @@
+A51 MACRO ASSEMBLER  TEST_1                                                               01/13/2014 14:49:23 PAGE     1
+
+
+MACRO ASSEMBLER A51 V6.12
+OBJECT MODULE PLACED IN TEST-1.obj
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE A51\TEST-1.A51 SET(SMALL) DEBUG PRINT(.\TEST-1.lst) OBJECT(TEST-1.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;/*ÊµÑéÒ» Ê¾Ý´«ËÍ,ÎÄ¼þÃû£ºcha13-1.A51*/  
+0000                   2            ORG     0000H
+  0030                 3     NADDR  EQU     30H     ;Æ¬ÄÚÊ¾ÝÇøÊ×µØÖ·  
+  3000                 4     WADDR  EQU     3000H   ;Æ¬ÍâÊ¾ÝÇøÊ×µØÖ·
+  0020                 5     COUNT  EQU     20H     ;´«ËÍÊ¾Ý´óÐ¡£¬¹²32¸ö×Ö½Ú
+                       6     
+0000 758160            7     MAIN:                   MOV     SP,#60H
+0003 7830              8                                     MOV             R0,#NADDR
+0005 7A20              9                    MOV             R2,#COUNT
+0007 7401             10     Init:  MOV     A,#01H
+0009 F6               11     LOOP1: MOV     @R0,A
+000A 04               12                    INC     A
+000B 08               13                    INC     R0
+000C DAFB             14                    DJNZ    R2,LOOP1
+                      15     
+000E 7830             16                    MOV     R0,#NADDR
+0010 903000           17                    MOV     DPTR,#WADDR
+0013 7A20             18                    MOV     R2,#COUNT
+0015 E6               19     NWSEND:        MOV     A,@R0
+0016 F0               20            MOVX    @DPTR,A
+0017 08               21            INC     R0
+0018 A3               22            INC     DPTR
+0019 DAFA             23            DJNZ    R2,NWSEND                    
+                      24     
+001B 903000           25     MAIN1: MOV     DPTR,#WADDR
+001E 7A20             26                    MOV     R2,#COUNT
+0020 7830             27                    MOV     R0,#NADDR
+                      28                                
+0022 E0               29     DISPLAY:       MOVX    A,@DPTR
+0023 F590             30                            MOV     P1,A
+0025 12003C           31                            LCALL   DELAY
+0028 12003C           32                                                 LCALL   DELAY
+002B 12003C           33                                                      LCALL   DELAY
+002E 12003C           34                                                       LCALL   DELAY 
+0031 12003C           35                                                       LCALL   DELAY
+0034 A3               36                            INC     DPTR
+0035 DAEB             37                            DJNZ    R2,DISPLAY
+0037 7590FF           38                            MOV     P1,#0FFH                
+003A 80DF             39                    SJMP MAIN1
+                      40     
+                      41     
+003C D2D4             42     DELAY:  SETB    0D4H
+003E 7BFF             43                     MOV             R3,#0FFH
+0040 7DFF             44     DL11:            MOV      R5,#0FFH
+0042 7FFF             45     DL7:  MOV    R7,#0FFH
+0044 7EFF             46     DL:   MOV    R6,#0FFH
+0046 DEFE             47     DL6:  DJNZ   R6,DL6
+0048 DFFA             48           DJNZ   R7,DL
+004A DDF6             49              DJNZ   R5,DL7
+004C DBF2             50                      DJNZ   R3,DL11
+004E C2D4             51                      CLR    0D4H
+0050 22               52           RET           
+                      53              END
+                             
+A51 MACRO ASSEMBLER  TEST_1                                                               01/13/2014 14:49:23 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+COUNT. . . . . . .  N NUMB   0020H   A   
+DELAY. . . . . . .  C ADDR   003CH   A   
+DISPLAY. . . . . .  C ADDR   0022H   A   
+DL . . . . . . . .  C ADDR   0044H   A   
+DL11 . . . . . . .  C ADDR   0040H   A   
+DL6. . . . . . . .  C ADDR   0046H   A   
+DL7. . . . . . . .  C ADDR   0042H   A   
+INIT . . . . . . .  C ADDR   0007H   A   
+LOOP1. . . . . . .  C ADDR   0009H   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+MAIN1. . . . . . .  C ADDR   001BH   A   
+NADDR. . . . . . .  N NUMB   0030H   A   
+NWSEND . . . . . .  C ADDR   0015H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+WADDR. . . . . . .  N NUMB   3000H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

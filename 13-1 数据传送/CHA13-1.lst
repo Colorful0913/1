@@ -1,0 +1,74 @@
+A51 MACRO ASSEMBLER  CHA13_1                                                              11/09/2020 19:30:50 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN CHA13-1.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE A51\CHA13-1.A51 SET(SMALL) DEBUG PRINT(.\CHA13-1.lst) OBJECT(CHA13-1.ob
+                      j) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1       
+0000                   2            ORG     0000H
+0000 020100            3                LJMP         MAIN
+  0030                 4     DADDR  EQU     30H     ;Æ¬ÄÚÊ¾ÝÇøÊ×µØÖ·  
+  3000                 5     XADDR  EQU     3000H   ;Æ¬ÍâÊ¾ÝÇøÊ×µØÖ·
+  0010                 6     COUNT  EQU     10H     ;´«ËÍÊ¾Ý´óÐ¡£¬¹²16¸ö×Ö½Ú
+0100                   7                     ORG             0100H
+0100 758160            8     MAIN:   MOV     SP,#60H         ;ÖØÖÃ¶ÑÕ»Ö¸Õë        
+0103 120116            9             LCALL   Init            ;µ÷ÓÃÆ¬ÄÚÊ¾ÝÇøÊ¾Ý³õÊ¼»¯×Ó³ÌÐò
+0106 120122           10             LCALL   DXMOV
+0109 903000           11     MAIN1:  MOV     DPTR,#XADDR
+010C 7A10             12             MOV     R2,#COUNT
+010E E0               13     LOOP1:  MOVX    A,@DPTR
+010F F590             14                     MOV     P1,A
+0111 A3               15                     INC             DPTR
+0112 DAFA             16                     DJNZ    R2,LOOP1
+0114 80F3             17             SJMP    MAIN1
+                      18             
+                      19                 
+0116 7830             20     Init:   MOV     R0,#DADDR       ;Æ¬ÄÚÊ¾ÝÇøÊ×µØÖ·ËÍR0
+0118 7A10             21             MOV     R2,#COUNT       ; ´«ËÍÊ¾Ý×Ö½Ú¸öÊËÍR2
+011A 7401             22                     MOV     A,#01H
+011C F6               23     LOOP2:  MOV             @R0,A
+011D 04               24             INC     A
+011E 08               25             INC     R0
+011F DAFB             26             DJNZ    R2,LOOP2
+0121 22               27             RET
+                      28     
+0122 7830             29     DXMOV:  MOV     R0,#DADDR
+0124 903000           30             MOV     DPTR,#XADDR
+0127 7A10             31             MOV     R2,#COUNT       
+0129 E6               32     LOOP3:  MOV     A,@R0
+012A F0               33             MOVX    @DPTR,A
+012B 08               34             INC     R0
+012C A3               35             INC     DPTR
+012D DAFA             36             DJNZ    R2,LOOP3
+012F 22               37             RET
+                      38                     END
+A51 MACRO ASSEMBLER  CHA13_1                                                              11/09/2020 19:30:50 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+COUNT. . . . . . .  N NUMB   0010H   A   
+DADDR. . . . . . .  N NUMB   0030H   A   
+DXMOV. . . . . . .  C ADDR   0122H   A   
+INIT . . . . . . .  C ADDR   0116H   A   
+LOOP1. . . . . . .  C ADDR   010EH   A   
+LOOP2. . . . . . .  C ADDR   011CH   A   
+LOOP3. . . . . . .  C ADDR   0129H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+MAIN1. . . . . . .  C ADDR   0109H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+XADDR. . . . . . .  N NUMB   3000H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

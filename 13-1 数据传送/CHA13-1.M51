@@ -1,0 +1,87 @@
+BL51 BANKED LINKER/LOCATER V4.13                                                        01/13/2014  12:21:11  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V4.13, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE CHA13-1.obj TO CHA13-1 RAMSIZE (256)
+
+
+INPUT MODULES INCLUDED:
+  CHA13-1.obj (CHA13_1)
+
+
+LINK MAP OF MODULE:  CHA13-1 (CHA13_1)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     003EH     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  CHA13-1 (CHA13_1)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        CHA13_1
+  N:0020H         SYMBOL        COUNT
+  C:0035H         SYMBOL        DELAY
+  C:002CH         SYMBOL        DISPLAY
+  C:0037H         SYMBOL        DL
+  C:0039H         SYMBOL        DL6
+  C:001DH         SYMBOL        INIT
+  C:001FH         SYMBOL        LOOP1
+  C:0000H         SYMBOL        MAIN
+  N:0030H         SYMBOL        NADDR
+  C:0025H         SYMBOL        NWSEND
+  D:0090H         SYMBOL        P1
+  N:3000H         SYMBOL        WADDR
+  C:0000H         LINE#         7
+  C:0002H         LINE#         8
+  C:0004H         LINE#         9
+  C:0007H         LINE#         10
+  C:0009H         LINE#         11
+  C:000CH         LINE#         12
+  C:000EH         LINE#         13
+  C:0011H         LINE#         14
+  C:0014H         LINE#         15
+  C:0016H         LINE#         16
+  C:0019H         LINE#         17
+  C:001BH         LINE#         18
+  C:001DH         LINE#         20
+  C:001FH         LINE#         21
+  C:0020H         LINE#         22
+  C:0021H         LINE#         23
+  C:0022H         LINE#         24
+  C:0024H         LINE#         25
+BL51 BANKED LINKER/LOCATER V4.13                                                      01/13/2014  12:21:11  PAGE 2
+
+
+  C:0025H         LINE#         27
+  C:0026H         LINE#         28
+  C:0027H         LINE#         29
+  C:0028H         LINE#         30
+  C:0029H         LINE#         31
+  C:002BH         LINE#         32
+  C:002CH         LINE#         36
+  C:002DH         LINE#         37
+  C:002FH         LINE#         38
+  C:0032H         LINE#         39
+  C:0034H         LINE#         40
+  C:0035H         LINE#         42
+  C:0037H         LINE#         43
+  C:0039H         LINE#         44
+  C:003BH         LINE#         45
+  C:003DH         LINE#         46
+  -------         ENDMOD        CHA13_1
+
+******************************************************************************
+* RESTRICTED VERSION WITH FFFFH BYTE CODE SIZE LIMIT; USED: 003EH BYTE ( 0%) *
+******************************************************************************
+
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

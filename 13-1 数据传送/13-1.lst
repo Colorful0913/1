@@ -1,0 +1,71 @@
+A51 MACRO ASSEMBLER  13_1                                                                 01/13/2014 12:15:26 PAGE     1
+
+
+MACRO ASSEMBLER A51 V6.12
+OBJECT MODULE PLACED IN .\13-1.obj
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE ..\cha13-1\A51\13-1.A51 SET(SMALL) DEBUG PRINT(.\13-1.lst) OBJECT(.\13-1.o
+                      bj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+0000                   2                     ORG     0000H
+  0030                 3     NUMB    EQU     30H       
+  0031                 4     FONT    EQU     31H
+0000 753001            5                     MOV     NUMB,#01H ;
+0003 E530              6     START:  MOV     A,NUMB
+0005 90000A            7                     MOV     DPTR,#TABADDR
+0008 23                8                     RL      A
+0009 73                9                     JMP     @A+DPTR
+000A 8006             10     TABADDR:SJMP    DISP0
+000C 800A             11                     SJMP    DISP1   
+000E 800E             12                     SJMP    DISP2
+0010 8012             13                     SJMP    DISP3
+0012 7531C0           14     DISP0:  MOV     FONT,#0C0H
+0015 020027           15                     LJMP    MJUP1
+0018 7531F9           16     DISP1:  MOV     FONT,#0F9H
+001B 020027           17                     LJMP    MJUP1
+001E 7531A4           18     DISP2:  MOV     FONT,#0A4H
+0021 020027           19                     LJMP    MJUP1
+0024 7531B0           20     DISP3:  MOV     FONT,#0B0H
+                      21                      
+0027 E531             22     MJUP1:  MOV     A,FONT 
+0029 F580             23     LD0:    MOV    P0,A                     ;字型送P0口
+002B 7B01             24                     MOV    R3,#01H          ;字位码送R3保存
+002D EB               25     LD1:    MOV    A,R3
+002E F5A0             26                     MOV             P2,A            ;字位码送P2口
+0030 20E104           27                 JB     ACC.1,LD2    ;2位显示完了吗？
+0033 23               28                     RL     A                        ;未完，左移一位
+0034 FB               29             MOV    R3,A                     ;保存位码
+0035 012D             30             AJMP   LD1
+0037 0127             31     LD2:    AJMP    MJUP1           ;显示完，跳MJUP1,循环
+                      32                     END             
+A51 MACRO ASSEMBLER  13_1                                                                 01/13/2014 12:15:26 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+DISP0. . . . . . .  C ADDR   0012H   A   
+DISP1. . . . . . .  C ADDR   0018H   A   
+DISP2. . . . . . .  C ADDR   001EH   A   
+DISP3. . . . . . .  C ADDR   0024H   A   
+FONT . . . . . . .  N NUMB   0031H   A   
+LD0. . . . . . . .  C ADDR   0029H   A   
+LD1. . . . . . . .  C ADDR   002DH   A   
+LD2. . . . . . . .  C ADDR   0037H   A   
+MJUP1. . . . . . .  C ADDR   0027H   A   
+NUMB . . . . . . .  N NUMB   0030H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+START. . . . . . .  C ADDR   0003H   A   
+TABADDR. . . . . .  C ADDR   000AH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

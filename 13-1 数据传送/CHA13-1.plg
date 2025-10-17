@@ -1,0 +1,29 @@
+Build target 'Target 1'
+assembling CHA13-1.A51...
+A51\CHA13-1.A51(7): error A9: SYNTAX ERROR
+A51\CHA13-1.A51(7): error A9: SYNTAX ERROR
+A51\CHA13-1.A51(31): error A45: UNDEFINED SYMBOL (PASS-2)
+A51\CHA13-1.A51(37): error A40: INVALID REGISTER
+Target not created
+Build target 'Target 1'
+assembling CHA13-1.A51...
+A51\CHA13-1.A51(31): error A45: UNDEFINED SYMBOL (PASS-2)
+A51\CHA13-1.A51(37): error A40: INVALID REGISTER
+Target not created
+Build target 'Target 1'
+assembling CHA13-1.A51...
+A51\CHA13-1.A51(36): error A40: INVALID REGISTER
+Target not created
+Build target 'Target 1'
+assembling CHA13-1.A51...
+linking...
+creating hex file from "CHA13-1"...
+"CHA13-1" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling CHA13-1.A51...
+linking...
+creating hex file from "CHA13-1"...
+"CHA13-1" - 0 Error(s), 0 Warning(s).
+</pre>
+</body>
+</html>

@@ -1,0 +1,127 @@
+C51 COMPILER V9.00   MOV                                                                   01/15/2014 00:08:14 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE MOV
+OBJECT MODULE PLACED IN MOV.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE C51\MOV.C BROWSE DEBUG OBJECTEXTEND PRINT(.\MOV.lst) OBJECT(MOV.obj)
+
+line level    source
+
+   1          /*实验一，数据传送程序，文件名：CHA13-1.c*/
+   2          #include<reg52.h>
+   3          #include<intrins.h>
+   4          #include <absacc.h>
+   5          #define uint unsigned int
+   6          #define uchar unsigned char
+   7          //#define XBYTE ((unsigned char volatile *)0x20000L)
+   8          //uchar  idata   naddr[16]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,0x0c,0x0d,0x0f,0x10};
+   9          uchar idata NADDR[16] _at_ 0x50;
+  10          uchar  xdata   *waddr;
+  11          uchar  data    count;
+  12          uchar i,n;
+  13          /***********ms延时程序******************/
+  14          void delay(uint z)//延时函数
+  15          {
+  16   1             uint i;
+  17   1             for(i=0;i<z;i++);
+  18   1      }
+  19          /************片内数据区初始化***************/
+  20          void Init(uchar lenth)
+  21          {
+  22   1              uchar i;
+  23   1              for(i=1;i<lenth;i++)
+  24   1              {
+  25   2                      NADDR[i]=i;
+  26   2              }
+  27   1      }
+  28          /*****片内数据传到片外2000H开始连续32单元中********/
+  29          void    nwsend(uchar s_addr, uint d_addr,uchar lenth)
+  30          {
+  31   1              uchar i;
+  32   1                      for(i=0;i<lenth;i++)
+  33   1              {               
+  34   2                              XBYTE[d_addr+i]=NADDR[s_addr+i];
+  35   2              }
+  36   1      }
+  37          /******方法一：使用指针****************/
+  38          void movxx(uchar *s_addr,uchar *d_addr, uchar lenth)
+  39          {
+  40   1              uchar i;
+  41   1                      for(i=0;i<lenth;i++){
+  42   2                              d_addr[i]=s_addr[i];
+  43   2                      }
+  44   1      }
+  45          /*****方法二：使用C51运行库中预定义宏********/
+  46          void movxd(uchar s_addr,uchar d_addr, uchar lenth)
+  47          {
+  48   1              uchar i;
+  49   1                      for(i=0;i<lenth;i++){
+  50   2                              DBYTE[d_addr+i]=XBYTE[s_addr+i];
+  51   2                              P1=     DBYTE[d_addr+i];
+  52   2                              delay(20000);
+  53   2                      }
+  54   1      }
+  55          
+C51 COMPILER V9.00   MOV                                                                   01/15/2014 00:08:14 PAGE 2   
+
+  56          /*****方法三：使用C51扩展关键字 _at_ *
+  57          void movcd(uchar lenth)
+  58          {
+  59                  uchar i;
+  60            code uchar codedata[16] _at_ 0x800;
+  61            idata uchar idatadata[16] _at_ 0x80;
+  62                          for(i=0;i<lenth;i++){
+  63                                  idatadata[i]=codedata[i];
+  64                          }
+  65          }
+  66          
+  67          
+  68          /*********LED显示子程序**************
+  69          void Display(uchar *s_addr,uchar i)
+  70          {
+  71                 
+  72                 {
+  73          //                      P1=i;
+  74                                      P1= s_addr[i];
+  75                          delay(20000);
+  76                 }
+  77          }
+  78          /************主函数****************/
+  79          void main()
+  80          {
+  81   1             uint i=0;
+  82   1      //         uchar data *xram1;
+  83   1      //         uchar xdata *xram2;
+  84   1      //         xram1=0x50;xram2=0x2000;
+  85   1      
+  86   1               
+  87   1      //         movcd(16);
+  88   1                 while(1) 
+  89   1                 { 
+  90   2                 i=0;    
+  91   2             Init(32);
+  92   2      //         movxx(xram1,xram2,16);       
+  93   2                  movxd(0x50,0x3000,16);
+  94   2      //       nwsend(0x50,0x2000,16);
+  95   2                 do
+  96   2                 {
+  97   3      //       Display(0x2000,i);
+  98   3      //         delay(2000);
+  99   3                 i++;
+ 100   3                 }while (i<17);
+ 101   2                 }
+ 102   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    209    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5      12
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

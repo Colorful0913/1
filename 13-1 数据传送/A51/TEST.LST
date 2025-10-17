@@ -1,0 +1,78 @@
+8051 Assembler           Version 1.00   01/13/114 14:26:02    Page 1
+E:\教材\2013年\邓胡滨\例题\Cha13\13-1\A51\TEST.A51
+
+
+
+    1 0000              ;/*实验一 数据传送,文件名：cha13-1.A51*/  
+    2 0000                     ORG     0000H
+    3 0000              NADDR  EQU     30H     ;片内数据区首地址  
+    4 0000              WADDR  EQU     3000H   ;片外数据区首地址
+    5 0000              COUNT  EQU     10H     ;传送数据大小，共32个字节
+    6 0000              
+    7 0000 758160       MAIN:           MOV     SP,#60H
+    8 0003 7830                         MOV             R0,#NADDR
+    9 0005 7A10                        MOV             R2,#COUNT
+   10 0007 120020                    LCALL   Init
+   11 000A 7830                        MOV     R0,#NADDR
+   12 000C 903000                     MOV     DPTR,#WADDR
+   13 000F 7A10                        MOV     R2,#COUNT
+   14 0011 120028                      LCALL   NWSEND
+   15 0014 903000       MAIN1: MOV     DPTR,#WADDR
+   16 0017 7A10                        MOV     R2,#COUNT
+   17 0019 7830                        MOV     R0,#NADDR
+   18 001B 120033                      LCALL   DISPLAY
+   19 001E 80F4                        SJMP MAIN1
+   20 0020              ;/*********片内数据区初始化子程序***********/            
+   21 0020 7401         Init:  MOV     A,#01H
+   22 0022 F6           LOOP1: MOV     @R0,A
+   23 0023 04                          INC     A
+   24 0024 08                          INC     R0
+   25 0025 DAFB                        DJNZ    R2,LOOP1
+   26 0027 22                        RET
+   27 0028              ;/***********片内外数据传送子程序************
+   28 0028 E6           NWSEND:        MOV     A,@R0
+   29 0029 F0                  MOVX    @DPTR,A
+   30 002A 08                  INC     R0
+   31 002B A3                  INC     DPTR
+   32 002C DAFA                DJNZ    R2,NWSEND
+   33 002E 22                  RET
+   34 002F              
+   35 002F                              
+   36 002F              ;/**************LED显示子程序*****************/
+   37 002F 7830                        MOV             R0,#NADDR
+   38 0031 7A10                        MOV             R2,#COUNT
+   39 0033                              
+   40 0033 E0           DISPLAY:       MOVX    A,@DPTR
+   41 0034 F590                                MOV     P1,A
+   42 0036 120043                              LCALL   DELAY
+   43 0039 A3                                  INC     DPTR
+   44 003A DAF7                                DJNZ    R2,DISPLAY
+   45 003C 7590FF                              MOV     P1,#0FFH
+   46 003F 120043                              LCALL DELAY
+   47 0042 22                                RET
+   48 0043              ;/**********延时子程序************/
+   49 0043 7DF4         DELAY: MOV      R5,#0F4H
+   50 0045 7FFF         DL7:  MOV    R7,#0FFH
+   51 0047 7EFF         DL:   MOV    R6,#0FFH
+   52 0049 DEFE         DL6:  DJNZ   R6,DL6
+   53 004B DFFA               DJNZ   R7,DL
+   54 004D DDF6                  DJNZ   R5,DL7
+   55 004F 22                 RET           
+   56 0050                       END
+
+Defined Symbols:
+  COUNT                                     000010  16
+  NADDR                                     000030  48
+  WADDR                                     003000  12288
+
+Defined Labels:
+  DELAY                                     000043  67
+  DISPLAY                                   000033  51
+  DL                                        000047  71
+  DL6                                       000049  73
+  DL7                                       000045  69
+  INIT                                      000020  32
+  LOOP1                                     000022  34
+  MAIN                                      000000  0
+  MAIN1                                     000014  20
+  NWSEND                                    000028  40

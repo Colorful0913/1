@@ -1,0 +1,34 @@
+C51 COMPILER V9.53.0.0   78_10_1                                                           02/28/2017 09:53:57 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE 78_10_1
+OBJECT MODULE PLACED IN 78-10-1.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE C51\78-10-1.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\78-10-
+                    -1.lst) TABS(2) OBJECT(78-10-1.obj)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          //#include <absace.h>
+   3          #define XBYTE ((unsigned char volatile xdata *) 0)
+   4          #define DBYTE ((unsigned char volatile data *) 0)
+   5          int i=0;
+   6          void main(){
+   7   1      XBYTE[0x4000]=0x34;
+   8   1      i=XBYTE[0x4000];
+   9   1      DBYTE[0x30]=i ;
+  10   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     16    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

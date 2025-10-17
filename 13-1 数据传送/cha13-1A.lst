@@ -1,0 +1,70 @@
+C51 COMPILER V9.53.0.0   CHA13_1A                                                          02/27/2017 15:17:51 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE CHA13_1A
+OBJECT MODULE PLACED IN cha13-1A.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE C51\cha13-1A.C OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\cha13
+                    --1A.lst) TABS(2) OBJECT(cha13-1A.obj)
+
+line level    source
+
+   1          /*实验一，数据传送程序，文件名：CHA13-1A.c*/
+   2          #include<reg52.h>
+   3          #include<intrins.h>
+   4          #include <absacc.h>
+   5          #define uint unsigned int
+   6          #define uchar unsigned char 
+   7          uchar idata dADDR[16] _at_ 0x30;
+   8          uchar xdata xADDR[16] _at_ 0x3000;
+   9          uchar  xdata   *waddr;
+  10          uchar  data    count;
+  11          uchar i,n;
+  12          /************片内数据区初始化***************/
+  13          void Init(uchar lenth)
+  14          {
+  15   1              uchar i;
+  16   1              for(i=0;i<lenth;i++)
+  17   1              {
+  18   2                      dADDR[i]=i+1;
+  19   2              }
+  20   1      }
+  21          /******方法一：使用指针,片内数据传到片外*******/
+  22          void movxx(uchar *s_addr,uchar *d_addr, uchar lenth)
+  23          {
+  24   1        uchar i;
+  25   1          for(i=0;i<lenth;i++){
+  26   2            d_addr[i]=s_addr[i];
+  27   2          }
+  28   1      }
+  29          /************主函数****************/
+  30          void main()
+  31          {
+  32   1             uint i;
+  33   1           uchar data *xram1;
+  34   1           uchar xdata *xram2;
+  35   1           xram1=0x30;xram2=0x3000; 
+  36   1           Init(16);
+  37   1           movxx(xram1,xram2,16);
+  38   1           
+  39   1           while(1) 
+  40   1           {     
+  41   2             for(i=0;i<17;i++)
+  42   2           {P1= xADDR[i]; } 
+  43   2           }
+  44   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    130    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5       7
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+C51 COMPILER V9.53.0.0   CHA13_1A                                                          02/27/2017 15:17:51 PAGE 2   
+
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
