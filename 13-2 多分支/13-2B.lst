@@ -1,0 +1,71 @@
+A51 MACRO ASSEMBLER  13_2B                                                                03/30/2016 10:20:32 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02b
+OBJECT MODULE PLACED IN 13-2B.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE A51\13-2B.A51 SET(SMALL) DEBUG PRINT(.\13-2B.lst) OBJECT(13-2B.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+0000                   2                     ORG     0000H
+  0030                 3     NUMB    EQU     30H       
+  0031                 4     FONT    EQU     31H
+0000 753000            5     INT:    MOV     NUMB,#00H ;需要显示首炙蚇UMB单元
+0003 7A04              6                     MOV     R2,#04H
+0005 E530              7     START:  MOV     A,NUMB
+0007 90000C            8                     MOV     DPTR,#TABADDR
+000A 23                9                     RL      A
+000B 73               10                     JMP     @A+DPTR
+000C 8006             11     TABADDR:SJMP    DISP0
+000E 800A             12                     SJMP    DISP1   
+0010 800E             13                     SJMP    DISP2
+0012 8012             14                     SJMP    DISP3
+0014 7531C0           15     DISP0:  MOV     FONT,#0C0H
+0017 020029           16                     LJMP    MJUP1
+001A 7531F9           17     DISP1:  MOV     FONT,#0F9H
+001D 020029           18                     LJMP    MJUP1
+0020 7531A4           19     DISP2:  MOV     FONT,#0A4H      ;
+0023 020029           20                     LJMP    MJUP1
+0026 7531B0           21     DISP3:  MOV     FONT,#0B0H
+                      22                      
+0029 E531             23     MJUP1:  MOV             A,FONT 
+002B F580             24                     MOV    P0,A                     ;字型送P0口
+002D 1135             25                     ACALL   DELAY
+002F 0530             26                     INC             NUMB
+0031 DAD2             27                     DJNZ    R2,START
+0033 0100             28                     AJMP    INT
+0035 7FFF             29     DELAY:  MOV    R7,#0FFH
+0037 7EFF             30     DL:     MOV    R6,#0FFH
+0039 DEFE             31     DL6:    DJNZ   R6,DL6
+003B DFFA             32             DJNZ   R7,DL
+003D 22               33             RET
+                      34                     END             
+A51 MACRO ASSEMBLER  13_2B                                                                03/30/2016 10:20:32 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   0035H   A   
+DISP0. . . . . . .  C ADDR   0014H   A   
+DISP1. . . . . . .  C ADDR   001AH   A   
+DISP2. . . . . . .  C ADDR   0020H   A   
+DISP3. . . . . . .  C ADDR   0026H   A   
+DL . . . . . . . .  C ADDR   0037H   A   
+DL6. . . . . . . .  C ADDR   0039H   A   
+FONT . . . . . . .  N NUMB   0031H   A   
+INT. . . . . . . .  C ADDR   0000H   A   
+MJUP1. . . . . . .  C ADDR   0029H   A   
+NUMB . . . . . . .  N NUMB   0030H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+START. . . . . . .  C ADDR   0005H   A   
+TABADDR. . . . . .  C ADDR   000CH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

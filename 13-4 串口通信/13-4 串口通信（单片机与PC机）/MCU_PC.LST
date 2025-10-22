@@ -1,0 +1,100 @@
+A51 MACRO ASSEMBLER  MCU_PC                                                               11/20/2017 13:41:47 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.5.0
+OBJECT MODULE PLACED IN MCU_PC.OBJ
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE MCU_PC.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;ÏÈÍ¨¹´®¿Úµ÷ÊÔ¹¤¾ß¼´PC·¢ËÍ×Ö·û¸øµ¥Æ¬»ú£¬µ¥Æ¬»ú½ÓÊÕÊ¾ÝºóÔÙ·¢¸øPC£¬ 
+
+                       2     ;ÔÙ´ÎÍ¨¹´®¿Úµ÷ÊÔ¹¤¾ß¹Û²ì´«ËÍ½á¹û£¬¼´ÊµÏÖÁËPCµ½µ¥Æ¬»úµÄÊÕ·¢
+
+                       3     ;ÓÉÓÚ±¾µØ·ÂÕæ£¬ÐèÒª°²×°ÐéÄâ´®¿Ú£¬PCÓÃCOM1¿Ú£¬MCUµÄCOMPIMÉèÎªCOM2£¬²¨ÌØÂÊ¾ùÎª9600
+
+0000                   4                     org     0000h
+
+0000 0130              5                     ajmp    main
+
+0023                   6                     org     0023h
+
+0023 014B              7                     ajmp    aa
+
+0030                   8                     org     0030h
+
+0030 759850            9     main:   mov     scon,#50h       ;ÉèÖÃµ¥Æ¬»ú´®¿Ú·½Ê½1½ÓÊÕ
+
+0033 758920           10                     mov     tmod,#20h               ;¶¨Ê±Æ÷T1¹¤×÷ÓÚ¶¨Ê±·½Ê½2
+
+0036 758700           11                     mov     pcon,#00h               ;´®¿Ú²¨ÌØÂÊSMOD=0,Fosc=11.0592M
+
+0039 758DFD           12                     mov     th1,#0fdh       ;¶¨Ê±Æ÷T1³õÖµ=FDH£¬²úÉú9600²¨ÌØÂÊ
+
+003C 758BFD           13                     mov     tl1,#0fdh
+
+003F D2AF             14                     setb    ea
+
+0041 D2AC             15                     setb    es      
+
+0043 D28E             16                     setb    tr1
+
+0045 C2D5             17                     CLR     F0                      ;F0=0½ÓÊÕ
+
+0047 E599             18                     mov     a,sbuf          ;Æô¶¯´®¿Ú½ÓÊÕÊ¾Ý
+
+0049 80FE             19                     sjmp    $                       ;µÈ´´®¿ÚÖÐ¶Ï
+
+004B 20D50A           20     aa:             JB              F0,TRS          ;ÏìÓ¦´®¿ÚÖÐ¶Ï£¬ ÈôF0=0Îª½ÓÊÕ£¬ÈôF0=1×ª·¢ËÍ
+
+004E D2D5             21                     SETB    F0                      ;½øÈë½ÓÊÕ´¦Àí£¬½«F0ÖÃ1£¬Îª½øÈë·¢ËÍ×ö×¼±¸
+
+0050 C298             22                     clr     ri                      ;½øÈëÖÐ¶Ï¼´½ÓÊÕÒ»¸öÊ¾Ýºó£¬Çå³RI±êÖ¾
+
+0052 759840           23                     MOV     scon,#40H       ;ÉèÖÃµ¥Æ¬»ú´®¿Ú·½Ê½1·¢ËÍ
+
+0055 F599             24                     MOV     sbuf,a      ;Æô¶¯´®¿Ú·¢ËÍÊ¾Ý
+
+0057 32               25                     RETI                            
+
+0058 C299             26     TRS:    CLR     TI                  ;½øÈëÖÐ¶Ï¼´·¢ËÍÒ»¸öÊ¾Ýºó£¬Çå³TI±êÖ¾
+
+005A C2D5             27                     CLR     F0                      ;½øÈë·¢ËÍ´¦Àí£¬½«F0Çå0£¬Îª½øÈë½ÓÊÕ×ö×¼±¸
+
+005C 759850           28                     MOV     scon,#50H       ;ÉèÖÃµ¥Æ¬»ú´®¿Ú·½Ê½1½ÓÊÕ
+
+005F E599             29                     mov     a,sbuf          ;Æô¶¯´®¿Ú½ÓÊÕÊ¾Ý        
+
+0061 32               30                     RETI    
+
+                      31                     end
+
+A51 MACRO ASSEMBLER  MCU_PC                                                               11/20/2017 13:41:47 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+AA . . . . . . . .  C ADDR   004BH   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ES . . . . . . . .  B ADDR   00A8H.4 A   
+F0 . . . . . . . .  B ADDR   00D0H.5 A   
+MAIN . . . . . . .  C ADDR   0030H   A   
+PCON . . . . . . .  D ADDR   0087H   A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+TRS. . . . . . . .  C ADDR   0058H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

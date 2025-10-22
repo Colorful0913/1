@@ -1,0 +1,162 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    11/06/2023  15:10:08  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE 13-2A.obj, 13-2C.obj TO 13-2 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  13-2A.obj (13_2A)
+  13-2C.obj (13_2C)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  13-2 (13_2A)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0004H     UNIT         ?DT?13_2C
+            IDATA   000CH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     002DH     ABSOLUTE     
+* OVERLAP * CODE    0000H     0003H     ABSOLUTE     
+            CODE    002DH     0027H     UNIT         ?PR?_FONT_NUMB?13_2C
+            CODE    0054H     001FH     UNIT         ?PR?MAIN?13_2C
+            CODE    0073H     0012H     UNIT         ?PR?_DELAY?13_2C
+            CODE    0085H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0091H     000AH     UNIT         ?PR?DISPLAY?13_2C
+
+
+
+OVERLAY MAP OF MODULE:   13-2 (13_2A)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?13_2C
+
+?PR?MAIN?13_2C
+  +--> ?PR?_FONT_NUMB?13_2C
+
+?PR?_FONT_NUMB?13_2C
+  +--> ?PR?DISPLAY?13_2C
+
+?PR?DISPLAY?13_2C
+  +--> ?PR?_DELAY?13_2C
+
+
+
+SYMBOL TABLE OF MODULE:  13-2 (13_2A)
+
+  VALUE           TYPE          NAME
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  11/06/2023  15:10:08  PAGE 2
+
+
+  ----------------------------------
+
+  -------         MODULE        13_2A
+  C:0012H         SYMBOL        DISP0
+  C:0018H         SYMBOL        DISP1
+  C:001EH         SYMBOL        DISP2
+  C:0024H         SYMBOL        DISP3
+  N:0031H         SYMBOL        FONT
+  C:0000H         SYMBOL        INT
+  C:0027H         SYMBOL        MJUP1
+  N:0030H         SYMBOL        NUMB
+  D:0080H         SYMBOL        P0
+  C:0003H         SYMBOL        START
+  C:000AH         SYMBOL        TABADDR
+  C:0000H         LINE#         5
+  C:0003H         LINE#         6
+  C:0005H         LINE#         7
+  C:0008H         LINE#         8
+  C:0009H         LINE#         9
+  C:000AH         LINE#         10
+  C:000CH         LINE#         11
+  C:000EH         LINE#         12
+  C:0010H         LINE#         13
+  C:0012H         LINE#         14
+  C:0015H         LINE#         15
+  C:0018H         LINE#         16
+  C:001BH         LINE#         17
+  C:001EH         LINE#         18
+  C:0021H         LINE#         19
+  C:0024H         LINE#         20
+  C:0027H         LINE#         22
+  C:0029H         LINE#         23
+  C:002BH         LINE#         24
+  -------         ENDMOD        13_2A
+
+  -------         MODULE        13_2C
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  C:0073H         PUBLIC        _delay
+  D:00B8H         PUBLIC        IP
+  C:0054H         PUBLIC        main
+  D:0008H         PUBLIC        numb
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:000AH         PUBLIC        font
+  C:002DH         PUBLIC        _font_numb
+  C:0091H         PUBLIC        Display
+  D:00C8H         PUBLIC        T2CON
+  D:000BH         PUBLIC        k
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        z
+  -------         DO            
+  D:0004H         SYMBOL        i
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  11/06/2023  15:10:08  PAGE 3
+
+
+  -------         ENDDO         
+  C:0073H         LINE#         9
+  C:0073H         LINE#         10
+  C:0073H         LINE#         12
+  C:0084H         LINE#         13
+  -------         ENDPROC       _DELAY
+  -------         PROC          DISPLAY
+  C:0091H         LINE#         15
+  C:0091H         LINE#         16
+  C:0094H         LINE#         17
+  -------         ENDPROC       DISPLAY
+  -------         PROC          _FONT_NUMB
+  D:0006H         SYMBOL        numb
+  C:002DH         LINE#         21
+  C:002DH         LINE#         22
+  C:003EH         LINE#         23
+  C:0043H         LINE#         24
+  C:0048H         LINE#         25
+  C:004DH         LINE#         26
+  C:0053H         LINE#         27
+  C:0053H         LINE#         28
+  C:0053H         LINE#         29
+  -------         ENDPROC       _FONT_NUMB
+  -------         PROC          MAIN
+  C:0054H         LINE#         32
+  C:0054H         LINE#         33
+  C:0054H         LINE#         34
+  C:0059H         LINE#         35
+  C:0060H         LINE#         36
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        13_2C
+
+*** WARNING L5: CODE SPACE MEMORY OVERLAP
+    FROM:    0000H
+    TO:      002CH
+
+Program Size: data=13.0 xdata=0 code=158
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

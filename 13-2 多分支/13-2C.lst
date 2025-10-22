@@ -1,0 +1,62 @@
+C51 COMPILER V9.57.0.0   13_2C                                                             11/06/2023 15:10:08 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE 13_2C
+OBJECT MODULE PLACED IN 13-2C.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE C51\13-2C.C OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\13-2C.ls
+                    -t) TABS(2) OBJECT(13-2C.obj)
+
+line level    source
+
+   1          /*实验二，分支程序，文件名：13-2.c*/
+   2          #include<reg52.h>
+   3          #include<intrins.h>
+   4          #define uint unsigned int
+   5          #define uchar unsigned char
+   6          uint numb;
+   7          uchar k,font;
+   8          /***********ms延时程序******************/
+   9          void delay(uint z)//延时函数
+  10          {
+  11   1        uint i;
+  12   1          for(i=0;i<z;i++);
+  13   1      }
+  14          /*********显示子程序**************/
+  15          void Display(){
+  16   1        P0=font;
+  17   1          delay(2000000);
+  18   1      }
+  19          
+  20          /*********分支子程序**************/
+  21          void font_numb(numb){
+  22   1        switch(numb){
+  23   2        case 0:{font=0xc0;Display();break;}
+  24   2        case 1:{font=0xf9;Display();break;}
+  25   2        case 2:{font=0xa4;Display();break;}
+  26   2        case 3:{font=0xb0;Display();break;}
+  27   2        default:{return;break;}
+  28   2        }
+  29   1      }
+  30          
+  31          /************主函数****************/
+  32          void main(){  
+  33   1        while(1)  { 
+  34   2          for(numb=0;numb<4;numb++){
+  35   3            font_numb(numb);
+  36   3          }
+  37   2        }
+  38   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     98    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,59 @@
+A51 MACRO ASSEMBLER  13_2A                                                                11/06/2023 15:10:08 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN 13-2A.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE A51\13-2A.A51 SET(SMALL) DEBUG PRINT(.\13-2A.lst) OBJECT(13-2A.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+0000                   2             ORG     0000H
+  0030                 3     NUMB    EQU     30H       
+  0031                 4     FONT    EQU     31H
+0000 753002            5     INT:    MOV     NUMB,#02H ;需要显示首炙蚇UMB单元
+0003 E530              6     START:  MOV     A,NUMB
+0005 90000A            7             MOV     DPTR,#TABADDR
+0008 23                8             RL      A
+0009 73                9             JMP     @A+DPTR
+000A 8006             10     TABADDR:SJMP    DISP0
+000C 800A             11             SJMP    DISP1   
+000E 800E             12             SJMP    DISP2
+0010 8012             13             SJMP    DISP3
+0012 7531C0           14     DISP0:  MOV     FONT,#0C0H
+0015 020027           15             LJMP    MJUP1
+0018 7531F9           16     DISP1:  MOV     FONT,#0F9H
+001B 020027           17             LJMP    MJUP1
+001E 7531A4           18     DISP2:  MOV     FONT,#0A4H      ;
+0021 020027           19             LJMP    MJUP1
+0024 7531B0           20     DISP3:  MOV     FONT,#0B0H
+                      21                      
+0027 E531             22     MJUP1:  MOV     A,FONT 
+0029 F580             23             MOV     P0,A    ;字型送P0口
+002B 0127             24             AJMP    MJUP1
+                      25             END             
+A51 MACRO ASSEMBLER  13_2A                                                                11/06/2023 15:10:08 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DISP0. . . . . . .  C ADDR   0012H   A   
+DISP1. . . . . . .  C ADDR   0018H   A   
+DISP2. . . . . . .  C ADDR   001EH   A   
+DISP3. . . . . . .  C ADDR   0024H   A   
+FONT . . . . . . .  N NUMB   0031H   A   
+INT. . . . . . . .  C ADDR   0000H   A   
+MJUP1. . . . . . .  C ADDR   0027H   A   
+NUMB . . . . . . .  N NUMB   0030H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+START. . . . . . .  C ADDR   0003H   A   
+TABADDR. . . . . .  C ADDR   000AH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

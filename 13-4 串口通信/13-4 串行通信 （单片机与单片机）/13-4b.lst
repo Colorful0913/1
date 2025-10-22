@@ -1,0 +1,204 @@
+A51 MACRO ASSEMBLER  13_4B                                                                05/07/2015 08:21:53 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02b
+OBJECT MODULE PLACED IN 13-4b.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE A51\13-4b.A51 SET(SMALL) DEBUG PRINT(.\13-4b.lst) OBJECT(13-4b.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+0000                   2             ORG             0000H   
+  0030                 3     BUFS                    EQU     30H             ;·¢ËÍÊ¾Ý»º³åÇø
+  0050                 4     BUFR                    EQU     50H             ;½ÓÊÕÊ¾Ý»º³åÇø
+  0020                 5     NUMB                    EQU     20H             ;·¢ËÍ/½ÓÊÕÊ¾Ý×Ö½Ú¸öÊ
+  007E                 6     SUMS                    EQU     7EH             ;·¢ËÍÐ£ÑéºÍµ¥Ôª
+  007F                 7     SUMR                    EQU     7FH             ;½ÓÊÕÐ£ÑéºÍµ¥Ôª
+                       8     
+0000 120016            9     MAIN:   LCALL InitArray         ;µ÷ÓÃ·¢ËÍÊ¾Ýµ¥Ôª³õÊ¼»¯×Ó³ÌÐò
+0003 1200FC           10                     LCALL   DELAY           ;ÑÓÊ±µÈ´ÍâÎ§Æ÷¼þÍê³É¸´Î» 
+0006 120022           11                     LCALL   InitUart        ;³õÊ¼»¯´®¿Ú
+0009 209005           12     MAIN2:  JB      P1.0,SEND               ;×ªµ÷ÓÃ·¢ËÍ×Ó³ÌÐò
+000C 12008F           13                     LCALL RECEIVE           ;µ÷ÓÃ½ÓÊÕ×Ó³ÌÐò/
+000F 80FE             14     HERE:   SJMP HERE
+0011 120032           15     SEND:   LCALL   SEND1
+0014 80FE             16     HERE1:  SJMP HERE1      
+                      17     
+0016 7A20             18     InitArray:      MOV     R2,#NUMB
+0018 7830             19                     MOV     R0,#BUFS
+001A 7400             20                     MOV     A,#00H
+001C F6               21     LOOP:   MOV     @R0,A
+001D 08               22                     INC     R0
+001E 04               23                     INC     A
+001F DAFB             24                     DJNZ    R2,LOOP
+0021 22               25                     RET
+                      26     
+0022                  27     InitUart:               ;/*³õÊ¼»¯´®¿Ú²¨ÌØÂÊ£¬Ê¹ÓÃ¶¨Ê±Æ÷1*/
+                      28                             ;/* Setup the serial port for 9600 baud at 11.0592MHz */
+0022 759850           29             MOV     SCON,#50H;  //´®¿Ú¹¤×÷ÔÚ·½Ê½1
+0025 758920           30             MOV     TMOD,#20H;
+0028 758700           31             MOV     PCON,#00H;
+002B 758DFD           32             MOV     TH1,#0FDH
+002E 758840           33             MOV     TCON,#40H;
+0031 22               34             RET
+                      35     
+0032                  36     SEND1:                          
+0032 75A0AA           37                     MOV     P2,#0AAH        ;
+0035 7599AA           38                     MOV     SBUF,#0AAH      ;  /*·¢ËÍÁªÂçÐÅºÅ*/
+0038 3099FD           39     LOOP1:  JNB     TI,LOOP1
+003B C299             40                     CLR     TI
+003D 3098FD           41     LOOP2:  JNB     RI,LOOP2
+0040 C298             42                     CLR     RI
+0042 E599             43                     MOV     A,SBUF
+0044 B4BBF6           44                     CJNE A,#0BBH,LOOP2
+0047 75A0BB           45                     MOV     P2,#0BBH
+004A 1200FC           46                     LCALL   DELAY
+004D 757E00           47     SEND2:  MOV     SUMS,#00H
+0050 7830             48                     MOV     R0,#BUFS
+0052 7A20             49                     MOV     R2,#NUMB        
+0054 E6               50     LOOP3:  MOV     A,@R0
+0055 F5A0             51                     MOV     P2,A
+0057 1200FC           52                     LCALL   DELAY
+005A F599             53                     MOV     SBUF,A
+005C 3099FD           54     LOOP4:  JNB     TI,LOOP4
+005F C299             55                     CLR     TI
+0061 257E             56                     ADD     A,SUMS
+0063 F57E             57                     MOV     SUMS,A
+0065 08               58                     INC     R0
+A51 MACRO ASSEMBLER  13_4B                                                                05/07/2015 08:21:53 PAGE     2
+
+0066 DAEC             59                     DJNZ R2,LOOP3
+0068 209704           60     LOOP5:  JB P1.7,LOOP6
+006B 2401             61                     ADD     A,#01H
+006D F57E             62                     MOV     SUMS,A
+006F F5A0             63     LOOP6:  MOV     P2,A
+0071 1200FC           64                     LCALL DELAY
+0074 F599             65                     MOV     SBUF,A
+0076 3099FD           66     LOOP7:  JNB     TI,LOOP7
+0079 C299             67                     CLR TI
+007B 3098FD           68     LOOP8:  JNB     RI,LOOP8
+007E C298             69                     CLR     RI
+0080 8599A0           70                     MOV     P2,SBUF
+0083 1200FC           71                     LCALL   DELAY
+0086 E599             72                     MOV     A,SBUF
+0088 B40001           73                     CJNE A,#00H,LOOP9
+008B 22               74     ENDS:   RET
+008C 02004D           75     LOOP9:  LJMP    SEND2   
+                      76      
+                      77     
+008F 3098FD           78     RECEIVE:JNB     RI,RECEIVE
+0092 C298             79                     CLR     RI
+0094 8599A0           80                     MOV     P2,SBUF
+0097 1200FC           81                     LCALL   DELAY
+009A E599             82                     MOV     A,SBUF
+009C B4AAF0           83                     CJNE A,#0AAH,RECEIVE
+009F 75A0BB           84                     MOV     P2,#0BBH
+00A2 1200FC           85                     LCALL   DELAY
+00A5 7599BB           86                     MOV     SBUF,#0BBH
+00A8 3099FD           87     LOOP11: JNB     TI,LOOP11
+00AB C299             88                     CLR     TI
+00AD 757F00           89     LOOP12: MOV     SUMR,#00H
+00B0 7950             90                     MOV     R1,#BUFR
+00B2 7B20             91                     MOV     R3,#NUMB
+00B4 3098FD           92     LOOP13: JNB     RI,LOOP13
+00B7 C298             93                     CLR     RI
+00B9 8599A0           94                     MOV     P2,SBUF
+00BC 1200FC           95                     LCALL   DELAY
+00BF E599             96                     MOV     A,SBUF
+00C1 F7               97                     MOV     @R1,A
+00C2 257F             98                     ADD     A,SUMR
+00C4 F57F             99                     MOV     SUMR,A
+00C6 09              100                     INC     R1
+00C7 DBEB            101                     DJNZ R3,LOOP13
+00C9 857FA0          102                     MOV     P2,SUMR
+00CC 3098FD          103     LOOP14: JNB     RI,LOOP14
+00CF C298            104                     CLR     RI
+00D1 8599A0          105                     MOV     P2,SBUF
+00D4 1200FC          106                     LCALL   DELAY
+00D7 E599            107                     MOV     A,SBUF
+00D9 B57F0F          108                     CJNE A,SUMR,LOOP16
+00DC 75A000          109                     MOV     P2,#00H
+00DF 1200FC          110                     LCALL   DELAY
+00E2 759900          111                     MOV     SBUF,#00H
+00E5 3099FD          112     LOOP15: JNB     TI,LOOP15
+00E8 C299            113                     CLR     TI
+00EA 22              114                     RET
+00EB 75A0FF          115     LOOP16: MOV     P2,#0FFH
+00EE 1200FC          116                     LCALL   DELAY
+00F1 7599FF          117                     MOV     SBUF,#0FFH
+00F4 3099FD          118     LOOP17: JNB     TI,LOOP17
+00F7 C299            119                     CLR     TI
+00F9 0200AD          120                     LJMP LOOP12
+                     121     
+                     122     
+00FC 7F04            123     DELAY:  MOV    R7,#04H
+00FE 7EFF            124     DL:     MOV    R6,#0FFH
+A51 MACRO ASSEMBLER  13_4B                                                                05/07/2015 08:21:53 PAGE     3
+
+0100 7DFF            125     DL1:    MOV        R5,#0FFH
+0102 DDFE            126     DL5:    DJNZ   R5,DL5
+0104 DEFA            127                     DJNZ   R6,DL1
+0106 DFF6            128             DJNZ   R7,DL
+0108 22              129             RET          
+                     130                     END
+A51 MACRO ASSEMBLER  13_4B                                                                05/07/2015 08:21:53 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+BUFR . . . . . . .  N NUMB   0050H   A   
+BUFS . . . . . . .  N NUMB   0030H   A   
+DELAY. . . . . . .  C ADDR   00FCH   A   
+DL . . . . . . . .  C ADDR   00FEH   A   
+DL1. . . . . . . .  C ADDR   0100H   A   
+DL5. . . . . . . .  C ADDR   0102H   A   
+ENDS . . . . . . .  C ADDR   008BH   A   
+HERE . . . . . . .  C ADDR   000FH   A   
+HERE1. . . . . . .  C ADDR   0014H   A   
+INITARRAY. . . . .  C ADDR   0016H   A   
+INITUART . . . . .  C ADDR   0022H   A   
+LOOP . . . . . . .  C ADDR   001CH   A   
+LOOP1. . . . . . .  C ADDR   0038H   A   
+LOOP11 . . . . . .  C ADDR   00A8H   A   
+LOOP12 . . . . . .  C ADDR   00ADH   A   
+LOOP13 . . . . . .  C ADDR   00B4H   A   
+LOOP14 . . . . . .  C ADDR   00CCH   A   
+LOOP15 . . . . . .  C ADDR   00E5H   A   
+LOOP16 . . . . . .  C ADDR   00EBH   A   
+LOOP17 . . . . . .  C ADDR   00F4H   A   
+LOOP2. . . . . . .  C ADDR   003DH   A   
+LOOP3. . . . . . .  C ADDR   0054H   A   
+LOOP4. . . . . . .  C ADDR   005CH   A   
+LOOP5. . . . . . .  C ADDR   0068H   A   
+LOOP6. . . . . . .  C ADDR   006FH   A   
+LOOP7. . . . . . .  C ADDR   0076H   A   
+LOOP8. . . . . . .  C ADDR   007BH   A   
+LOOP9. . . . . . .  C ADDR   008CH   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+MAIN2. . . . . . .  C ADDR   0009H   A   
+NUMB . . . . . . .  N NUMB   0020H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+PCON . . . . . . .  D ADDR   0087H   A   
+RECEIVE. . . . . .  C ADDR   008FH   A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SEND . . . . . . .  C ADDR   0011H   A   
+SEND1. . . . . . .  C ADDR   0032H   A   
+SEND2. . . . . . .  C ADDR   004DH   A   
+SUMR . . . . . . .  N NUMB   007FH   A   
+SUMS . . . . . . .  N NUMB   007EH   A   
+TCON . . . . . . .  D ADDR   0088H   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

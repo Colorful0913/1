@@ -1,0 +1,240 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    07/16/2025  08:41:20  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE 13-4.obj TO 13-4 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  13-4.obj (13_4)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  13-4 (13_4)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+                    0008H     0028H                  *** GAP ***
+            IDATA   0030H     0020H     ABSOLUTE     
+* OVERLAP * IDATA   0030H     0020H     ABSOLUTE     
+            IDATA   0050H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     001EH     UNIT         ?PR?MAIN?13_4
+            CODE    0021H     0013H     UNIT         ?PR?INITUART?13_4
+                    0034H     0007H                  *** GAP ***
+            CODE    003BH     0003H     ABSOLUTE     
+            CODE    003EH     0060H     UNIT         ?PR?_RECEIVE?13_4
+            CODE    009EH     0053H     UNIT         ?PR?_SEND?13_4
+            CODE    00F1H     001BH     UNIT         ?PR?_DELAY?13_4
+            CODE    010CH     000DH     UNIT         ?PR?INITARRAY?13_4
+            CODE    0119H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   13-4 (13_4)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?13_4
+
+?PR?MAIN?13_4
+  +--> ?PR?INITARRAY?13_4
+  +--> ?PR?_DELAY?13_4
+  +--> ?PR?INITUART?13_4
+  +--> ?PR?_SEND?13_4
+  +--> ?PR?_RECEIVE?13_4
+
+?PR?_SEND?13_4
+  +--> ?PR?_DELAY?13_4
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/16/2025  08:41:20  PAGE 2
+
+
+?PR?_RECEIVE?13_4
+  +--> ?PR?_DELAY?13_4
+
+
+
+SYMBOL TABLE OF MODULE:  13-4 (13_4)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        13_4
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  C:00FAH         PUBLIC        _delay
+  D:00B8H         PUBLIC        IP
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  C:0003H         PUBLIC        main
+  C:009EH         PUBLIC        _send
+  I:0030H         PUBLIC        rbuf
+  D:0099H         PUBLIC        SBUF
+  D:0087H         PUBLIC        PCON
+  I:0030H         PUBLIC        sbuf
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  C:010CH         PUBLIC        initArray
+  B:0090H.0       PUBLIC        SEND_RECI_CTRL
+  D:00E0H         PUBLIC        ACC
+  C:003BH         PUBLIC        stop
+  D:008DH         PUBLIC        TH1
+  D:008BH         PUBLIC        TL1
+  C:0021H         PUBLIC        initUart
+  C:003EH         PUBLIC        _receive
+  D:00C8H         PUBLIC        T2CON
+  B:0090H.7       PUBLIC        CTRL_BUTTON
+  D:00D0H         PUBLIC        PSW
+  C:00F3H         SYMBOL        L?0061
+  C:00F6H         SYMBOL        L?0062
+  -------         PROC          L?0060
+  -------         ENDPROC       L?0060
+  C:00F3H         SYMBOL        L?0061
+  C:00F6H         SYMBOL        L?0062
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        z
+  -------         DO            
+  D:0004H         SYMBOL        i
+  -------         ENDDO         
+  C:00FAH         LINE#         19
+  C:00FAH         LINE#         20
+  C:00FAH         LINE#         22
+  C:010BH         LINE#         23
+  -------         ENDPROC       _DELAY
+  -------         PROC          MAIN
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/16/2025  08:41:20  PAGE 3
+
+
+  C:0003H         LINE#         25
+  C:0003H         LINE#         26
+  C:0006H         LINE#         27
+  C:000DH         LINE#         28
+  C:0010H         LINE#         29
+  C:0013H         LINE#         30
+  C:0018H         LINE#         31
+  C:001AH         LINE#         32
+  C:001AH         LINE#         33
+  C:001FH         LINE#         34
+  C:001FH         LINE#         35
+  -------         ENDPROC       MAIN
+  -------         PROC          INITARRAY
+  -------         DO            
+  D:0007H         SYMBOL        i
+  -------         ENDDO         
+  C:010CH         LINE#         38
+  C:010CH         LINE#         39
+  C:010CH         LINE#         41
+  C:010EH         LINE#         42
+  C:010EH         LINE#         43
+  C:0114H         LINE#         44
+  C:0118H         LINE#         45
+  -------         ENDPROC       INITARRAY
+  -------         PROC          INITUART
+  C:0021H         LINE#         47
+  C:0021H         LINE#         48
+  C:0021H         LINE#         50
+  C:0024H         LINE#         51
+  C:0027H         LINE#         52
+  C:002AH         LINE#         53
+  C:002CH         LINE#         54
+  C:002EH         LINE#         55
+  C:0030H         LINE#         56
+  C:0033H         LINE#         57
+  -------         ENDPROC       INITUART
+  -------         PROC          _SEND
+  D:0001H         SYMBOL        d
+  -------         DO            
+  D:0002H         SYMBOL        i
+  D:0003H         SYMBOL        pf
+  -------         ENDDO         
+  C:009EH         LINE#         59
+  C:00A0H         LINE#         60
+  C:00A0H         LINE#         62
+  C:00A0H         LINE#         63
+  C:00A3H         LINE#         64
+  C:00A6H         LINE#         65
+  C:00ABH         LINE#         66
+  C:00B0H         LINE#         67
+  C:00B6H         LINE#         68
+  C:00B9H         LINE#         69
+  C:00B9H         LINE#         70
+  C:00BBH         LINE#         71
+  C:00BCH         LINE#         72
+  C:00C5H         LINE#         73
+  C:00CBH         LINE#         74
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/16/2025  08:41:20  PAGE 4
+
+
+  C:00CDH         LINE#         75
+  C:00D2H         LINE#         76
+  C:00D6H         LINE#         77
+  C:00DAH         LINE#         78
+  C:00DFH         LINE#         79
+  C:00E1H         LINE#         80
+  C:00E6H         LINE#         81
+  C:00E9H         LINE#         82
+  C:00ECH         LINE#         83
+  C:00F0H         LINE#         84
+  -------         ENDPROC       _SEND
+  -------         PROC          _RECEIVE
+  D:0003H         SYMBOL        d
+  -------         DO            
+  D:0006H         SYMBOL        i
+  D:0007H         SYMBOL        pf
+  -------         ENDDO         
+  C:003EH         LINE#         86
+  C:0040H         LINE#         87
+  C:0040H         LINE#         89
+  C:0040H         LINE#         90
+  C:0043H         LINE#         91
+  C:0046H         LINE#         92
+  C:004CH         LINE#         93
+  C:0052H         LINE#         94
+  C:0055H         LINE#         95
+  C:005AH         LINE#         96
+  C:005AH         LINE#         97
+  C:005CH         LINE#         98
+  C:005DH         LINE#         99
+  C:0062H         LINE#         100
+  C:0067H         LINE#         101
+  C:006AH         LINE#         102
+  C:006CH         LINE#         103
+  C:0070H         LINE#         104
+  C:0072H         LINE#         105
+  C:0077H         LINE#         106
+  C:007AH         LINE#         107
+  C:007FH         LINE#         108
+  C:0084H         LINE#         109
+  C:0087H         LINE#         110
+  C:008CH         LINE#         111
+  C:008EH         LINE#         112
+  C:008EH         LINE#         113
+  C:0094H         LINE#         114
+  C:009CH         LINE#         116
+  C:009CH         LINE#         117
+  -------         ENDPROC       _RECEIVE
+  -------         ENDMOD        13_4
+
+*** WARNING L4: DATA SPACE MEMORY OVERLAP
+    FROM:    0030H
+    TO:      004FH
+
+Program Size: data=73.0 xdata=0 code=286
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

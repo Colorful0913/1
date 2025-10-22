@@ -1,0 +1,108 @@
+A51 MACRO ASSEMBLER  13_6                                                                 03/24/2014 12:10:40 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN .\13-6.obj
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE ..\13-6\A51\13-6.A51 SET(SMALL) DEBUG PRINT(.\13-6.lst) OBJECT(.\13-6.obj)
+                       EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1         
+0000                   2                     ORG     0000H
+  0000                 3     EPROM27256      EQU             0000H           ;¶¨ÒåEPROM27256S³ÌÐò³ÌÐòÆ÷Ê×µØÖ· 
+  0000                 4     SRAM62256       EQU             0000H           ;¶¨ÒåSRAM62256Ê¾Ý´æ´¢Æ÷Ê×µØÖ· 
+  0020                 5     NUMB            EQU             20H                     ;¶¨ÒåÒª´æÈ¡×Ö½Ú¸öÊ 
+                       6     
+                       7     ;Ö÷³ÌÐò
+0000 7A20              8     MAIN:   MOV     R2,#NUMB
+0002 7401              9                     MOV     A,#01H
+0004 7830             10                     MOV     R0,#30H
+0006 F6               11     LOOP1:  MOV     @R0,A
+0007 04               12                     INC     A
+0008 DAFC             13                     DJNZ    R2,LOOP1
+000A 900000           14             MOV     DPTR,#SRAM62256
+000D 7830             15                     MOV     R0,#30H
+000F 7A20             16                     MOV     R2,#NUMB
+0011 E6               17     LOOP2:  MOV     A,@R0
+0012 F0               18                     MOVX    @DPTR,A
+0013 08               19                     INC R0
+0014 A3               20                     INC     DPTR
+0015 DAFA             21                     DJNZ    R2,LOOP2 
+0017 900001           22     LOOP:   MOV     DPTR,#0001H
+001A 7A10             23                     MOV     R2,#10H
+001C E0               24     LOOP3:  MOVX    A,@DPTR
+001D 757901           25                     MOV     79H,#01H
+0020 757A01           26                     MOV     7AH,#01H
+0023 12002B           27                     LCALL DISPLAY
+0026 A3               28                     INC     DPTR
+0027 DAF3             29                     DJNZ R2,LOOP3
+0029 80F1             30                     SJMP    LOOP3   
+                      31                     
+                      32                      
+002B 7879             33     DISPLAY:MOV    R0,#79H          ;ÏÔÊ¾»º³åÇøÊ×µØÖ·ËÍR0
+002D 7B01             34             MOV    R3,#01H          ;×ÖÎ»ÂëËÍR3±£´æ
+002F EB               35             MOV    A,R3
+0030 F5B0             36     LD0:    MOV    P3,A                     ;×ÖÎ»ÂëËÍÎ»Âë¶Ë¿ÚP2£¬µãÁÁ¸ÃÎ»
+0032 E6               37             MOV    A,@R0            ;È¡³öÒ»Î»ÒªÏÔÊ¾Ê¾Ý
+0033 900045           38             MOV     DPTR,#TAB1              ;±íÊ×µØÖ·ËÍDPTR
+0036 93               39             MOVC   A,@A+DPTR        ;²é±í»ñÈ¡¸ÃÊ¾ÝµÄ×ÖÐÍÂë
+                      40     
+                      41     
+0037 F590             42     DIR1:   MOV    P1,A                     ;×ÖÐÍÂëËÍ¶ÎÂë¶Ë¿ÚP0
+0039 1158             43             ACALL  DL11                     ;µ÷ÓÃÑÓÊ±×Ó³ÌÐò
+003B 08               44                 INC    R0                           ;»º³åÇøµØÖ·+1
+003C EB               45             MOV    A,R3                     ;È¡³öÎ»Âë
+003D 20E104           46             JB     ACC.1,LD1                ;ÅÐ¶Ï6Î»ÊÂë¹ÜÏÔÊ¾ÍêÂð£¿ÏÔÊ¾Íê×ªLD1
+0040 23               47             RL     A                                ;Î´Íê£¬×óÒÆÒ»Î»
+0041 FB               48             MOV    R3,A                     ;±£´æÎ»Âë
+0042 0130             49             AJMP   LD0
+0044 22               50     LD1:    RET                                     ;×Ó³ÌÐò·µ»Ø
+0045 C0F9A4B0         51     TAB1:  DB      0C0H,0F9H,0A4H,0B0H,99H,92H
+0049 9992                    
+004B 82F88090         52           DB     82H,0F8H,80H,90H,88H,83H,0C6H,0A1H    
+004F 8883C6A1                
+0053 868EBFFF         53           DB      86H,8EH,0BFH,0FFH,0FFH
+0057 FF                      
+                      54     
+A51 MACRO ASSEMBLER  13_6                                                                 03/24/2014 12:10:40 PAGE     2
+
+0058 7F10             55     DL11: MOV    R7,#10H
+005A 7EFF             56     DL:   MOV    R6,#0FFH
+005C DEFE             57     DL6:  DJNZ   R6,DL6
+005E DFFA             58           DJNZ   R7,DL
+0060 22               59           RET            
+                      60               END
+A51 MACRO ASSEMBLER  13_6                                                                 03/24/2014 12:10:40 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+DIR1 . . . . . . .  C ADDR   0037H   A   
+DISPLAY. . . . . .  C ADDR   002BH   A   
+DL . . . . . . . .  C ADDR   005AH   A   
+DL11 . . . . . . .  C ADDR   0058H   A   
+DL6. . . . . . . .  C ADDR   005CH   A   
+EPROM27256 . . . .  N NUMB   0000H   A   
+LD0. . . . . . . .  C ADDR   0030H   A   
+LD1. . . . . . . .  C ADDR   0044H   A   
+LOOP . . . . . . .  C ADDR   0017H   A   
+LOOP1. . . . . . .  C ADDR   0006H   A   
+LOOP2. . . . . . .  C ADDR   0011H   A   
+LOOP3. . . . . . .  C ADDR   001CH   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+NUMB . . . . . . .  N NUMB   0020H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+SRAM62256. . . . .  N NUMB   0000H   A   
+TAB1 . . . . . . .  C ADDR   0045H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

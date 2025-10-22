@@ -1,0 +1,147 @@
+C51 COMPILER V9.57.0.0   13_4                                                              07/16/2025 08:41:20 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE 13_4
+OBJECT MODULE PLACED IN 13-4.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE C51\13-4.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\13-4.lst)
+                    - TABS(2) OBJECT(13-4.obj)
+
+line level    source
+
+   1          /* 程序中增加了在P2口显示启动信号AA、回答信号BB、发送数据和校验和 */
+   2          /* SEND_RECI_LINE＝1，设置发送; SEND_RECI_LINE＝0，设置接收*/
+   3          #include <REG52.H> 
+   4          #include <intrins.h>
+   5          #include <stdio.h>
+   6          #define uchar unsigned char
+   7          #define uint unsigned int
+   8          
+   9          sbit SEND_RECI_CTRL = P1^0;
+  10          sbit CTRL_BUTTON = P1^7; /* CTRL_BUTTON＝0，设置错误校验和 */
+  11          uchar idata sbuf [32] _at_ 0x30;  /*发送内容*/
+  12          uchar idata rbuf [32] _at_ 0x30;  /*接收缓冲区*/
+  13          void initUart(void);      /*初始化串口波特率，使用定时器1*/
+  14          void send(uchar idata *d);     /*发送函数*/
+  15          void receive(uchar idata *d);  /*接收函数*/
+  16          void initArray();       /*数组初始化*/
+  17          code unsigned char stop[3] _at_ 0x3b;
+  18          /***********ms延时程序******************/
+  19          void delay(uint z)/*延时函数*/
+  20          {
+  21   1        uint i;
+  22   1          for(i=0;i<z;i++);
+  23   1      }
+  24          /******** main 函数 *********/
+  25          void main (void) {  
+  26   1        initArray();
+  27   1        delay(10);      /* 延时等待外围器件完成复位 */
+  28   1        initUart();     /* 初始化串口 */
+  29   1          if(SEND_RECI_CTRL){ /*发送*/
+  30   2            send(sbuf);
+  31   2          }
+  32   1          else{       /*接收*/
+  33   2            receive(rbuf);  
+  34   2          }
+  35   1        while(1){}
+  36   1      }
+  37          /********** 数组初始化************/
+  38          void initArray()
+  39          {
+  40   1        uchar i;
+  41   1        for(i=0;i<32;i++)
+  42   1        {
+  43   2          sbuf[i]=i;  
+  44   2        } 
+  45   1      }
+  46          /********** 初始化串口波特率 ************/
+  47          void initUart(void)/*初始化串口波特率，使用定时器1*/
+  48          {
+  49   1      /* Setup the serial port for 9600 baud at 11.0592MHz */
+  50   1        SCON  = 0x50;  /*串口工作在方式1*/
+  51   1        TMOD  = 0x20;
+  52   1        PCON  = 0x0;
+  53   1        ACC   = 0xfd;
+  54   1        TL1   = ACC;
+C51 COMPILER V9.57.0.0   13_4                                                              07/16/2025 08:41:20 PAGE 2   
+
+  55   1        TH1   = ACC;
+  56   1        TCON  = 0x40;
+  57   1      }
+  58          
+  59          void send(uchar idata *d) /*发送函数*/
+  60          {
+  61   1      uchar i,pf;
+  62   1        do{     
+  63   2          P2=0xaa;
+  64   2          SBUF=0xaa;  /*发送联络信号*/
+  65   2          while(TI==0){}TI=0; 
+  66   2          while(RI==0){}RI=0;
+  67   2        }while((SBUF^0xbb)!=0);  /*乙机未准备好，继续联络*/
+  68   1        P2=SBUF;delay(50000);
+  69   1        do{
+  70   2            pf=0;    /*清校验和*/
+  71   2          for(i=0;i<32;i++){      
+  72   3              P2=d[i];delay(50000);
+  73   3            SBUF=d[i];  /*发送一个data,come from sbuf,initarray*/
+  74   3              pf+=d[i];   /*求校验和*/
+  75   3            while(TI==0){}TI=0;
+  76   3            }
+  77   2          if(!CTRL_BUTTON) pf++; /* CTRL_BUTTON＝0，设置错误校验和 */
+  78   2          P2=pf;delay(50000);    /*显示校验和*/
+  79   2            SBUF=pf;               /*发送校验和*/
+  80   2          while(TI==0){}TI=0;
+  81   2          while(RI==0){}RI=0;
+  82   2          P2=SBUF;delay(50000);
+  83   2          }while(SBUF!=0);  /*回答出错, 则重发*/
+  84   1      } 
+  85          
+  86          void receive(uchar idata *d)/*接收函数*/
+  87          {
+  88   1      uchar i,pf;
+  89   1        do{
+  90   2          while(RI==0){}RI=0;
+  91   2          P2=SBUF;delay(50000);
+  92   2          }while((SBUF^0xaa)!=0); /*判甲机请求否*/
+  93   1        P2=0xbb;delay(50000);
+  94   1          SBUF=0xbb;  /*发应答信号*/
+  95   1        while(TI==0){}TI=0;
+  96   1          while(1){
+  97   2            pf=0;  /*清校验和*/
+  98   2          for(i=0; i<32; i++){
+  99   3            while(RI==0){}RI=0;
+ 100   3              d[i]=SBUF;  /*接收一个数据*/
+ 101   3            P2=d[i];  /*显示接收数据*/
+ 102   3              pf+=d[i];   /*求校验和*/
+ 103   3          }
+ 104   2          P2=pf;  /*显示校验和*/
+ 105   2          while(RI==0){}RI=0;
+ 106   2          P2=SBUF;
+ 107   2          if((SBUF^pf)==0){/*比较校验和*/
+ 108   3            P2=0;delay(50000);
+ 109   3              SBUF=0x00;/*校验和相同发"0x00"*/
+ 110   3            while(TI==0){}TI=0;     
+ 111   3          }
+ 112   2          else{
+ 113   3              P2=0xff;delay(50000);
+ 114   3            SBUF=0xff;while(TI==0){}TI=0; /*校验和不同发"0xff", 重新接收*/
+ 115   3            
+ 116   3          }
+C51 COMPILER V9.57.0.0   13_4                                                              07/16/2025 08:41:20 PAGE 3   
+
+ 117   2        }
+ 118   1      }
+ 119          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    268    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

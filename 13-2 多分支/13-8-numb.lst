@@ -1,0 +1,302 @@
+A51 MACRO ASSEMBLER  13_8_NUMB                                                            03/24/2014 12:07:46 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN .\13-8-numb.obj
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE ..\13-8\A51\13-8-numb.A51 SET(SMALL) DEBUG PRINT(.\13-8-numb.lst) OBJECT(.
+                      \13-8-numb.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;DS1621Ê¾Ý²É¼¯ÓëÏÔÊ¾
+0000                   2             ORG     0000H
+  0093                 3     SCL             BIT     P1.3    ;Ê±ÖÓÏß
+  0092                 4     SDA             BIT     P1.2    ;Ê¾ÝÏß
+  0090                 5     WADDRESS_BYTE   EQU     90H             ;DS1621Ð´µØÖ·                   
+  0091                 6     RADDRESS_BYTE   EQU     91H             ;DS1621¶ÁµØÖ·
+  0070                 7     COMMAND_BYTE    EQU 70H         ;ÃüÁî×Ö½Ú
+  0071                 8     DATA_BYTE               EQU     71H             ;Ê¾Ý×Ö½Ú
+  0072                 9     MSBYTE                  EQU     72H             ;Ê¾Ý¸ß×Ö½Ú
+  0073                10     LSBYTE                  EQU     73H             ;Ê¾ÝµÍ×Ö½Ú
+                      11     
+0000                  12     MAIN:   
+0000 757200           13                     MOV             MSBYTE,#00H                             
+0003 757300           14                     MOV             LSBYTE,#00H
+0006 7570AC           15                     MOV             COMMAND_BYTE,# 0ACH             ;ÅäÖÃDS1621
+0009 757108           16                     MOV             DATA_BYTE,#08H                  ;¿ÉÒÔÅäÖÃÎª09£¬¹Û²ìÎÂ¶È±ä»¯
+                             ²É¼¯Ò»´Î»ò¶à´ÎµÄÊ¾Ý±ä»¯
+000C 120052           17                     LCALL   Wone_byte
+000F 7570A1           18                     MOV             COMMAND_BYTE,# 0A1H             ;ÉèÖÃ¸ßÎÂÖµ
+0012 757228           19                     MOV             MSBYTE,#28H
+0015 757200           20                     MOV             MSBYTE,#00H
+0018 120071           21                     LCALL   Wtwo_byte
+001B 7570A2           22                     MOV             COMMAND_BYTE,# 0A2H             ;ÉèÖÃµÍÎÂÖµ
+001E 75720A           23                     MOV             MSBYTE,#0aH
+0021 757200           24                     MOV             MSBYTE,#00H
+0024 120071           25                     LCALL   Wtwo_byte
+0027 7570EE           26                     MOV             COMMAND_BYTE,# 0EEH      ;Æô¶¯ÎÂ¶È×ª»»
+002A 12003B           27                     LCALL   standalone
+002D 7570AA           28                     MOV             COMMAND_BYTE,#0AAH       ;¶ÁÈ¡×ª»»Öµ
+0030 1200C2           29     MAIN1:  LCALL   read_two_byte
+0033 120144           30                     LCALL   DATA1                           ;ÎÂ¶ÈÖµµ÷ÕûBCDÂëËÍÏÔÊ¾»º³åÇø×Ó³ÌÐò
+0036 120175           31                     LCALL   DISPLAY                         ;µ÷ÏÔÊ¾³ÌÐò×Ó³ÌÐò
+0039 0130             32                     AJMP    MAIN1 
+                      33     
+003B                  34     standalone: 
+003B 1200F4           35                     LCALL   START
+003E 7490             36                     MOV             A,#WADDRESS_BYTE          
+0040 120136           37                     LCALL   W1BYTE
+0043 120110           38                     LCALL   ACK
+0046 E570             39                     MOV             A,COMMAND_BYTE    
+0048 120136           40                     LCALL   W1BYTE
+004B 120110           41                     LCALL   ACK
+004E 120101           42                     LCALL   STOP
+0051 22               43                     RET
+                      44     
+0052                  45     Wone_byte:
+0052 1200F4           46                     LCALL   START
+0055 7490             47                     MOV             A,#WADDRESS_BYTE          ;
+0057 120136           48                     LCALL   W1BYTE
+005A 120110           49                     LCALL   ACK
+005D E570             50                     MOV             A,COMMAND_BYTE    
+005F 120136           51                     LCALL   W1BYTE
+0062 120110           52                     LCALL   ACK
+0065 E571             53                     MOV             A,DATA_BYTE       
+0067 120136           54                     LCALL   W1BYTE
+006A 120110           55                     LCALL   ACK
+006D 120101           56                     LCALL   STOP
+A51 MACRO ASSEMBLER  13_8_NUMB                                                            03/24/2014 12:07:46 PAGE     2
+
+0070 22               57                     RET
+                      58     
+0071                  59     Wtwo_byte:              
+0071 1200F4           60                     LCALL   START
+0074 7490             61                     MOV             A,#WADDRESS_BYTE          ;
+0076 120136           62                     LCALL   W1BYTE
+0079 120110           63                     LCALL   ACK
+007C E570             64                     MOV             A,COMMAND_BYTE    
+007E 120136           65                     LCALL   W1BYTE
+0081 120110           66                     LCALL   ACK
+0084 E572             67                     MOV             A,MSBYTE          
+0086 120136           68                     LCALL   W1BYTE
+0089 120110           69                     LCALL   ACK
+008C E573             70                     MOV             A,LSBYTE          
+008E 120136           71                     LCALL   W1BYTE
+0091 120110           72                     LCALL   ACK
+0094 120101           73                     LCALL   STOP
+0097 22               74                     RET
+                      75     
+0098                  76     read_one_byte:
+0098 1200F4           77                     LCALL   START
+009B 7490             78                     MOV             A,#WADDRESS_BYTE          ;
+009D 120136           79                     LCALL   W1BYTE
+00A0 120110           80                     LCALL   ACK
+00A3 E570             81                     MOV             A,COMMAND_BYTE    
+00A5 120136           82                     LCALL   W1BYTE
+00A8 120110           83                     LCALL   ACK
+00AB 1200F4           84                     LCALL   START
+00AE 7491             85                     MOV             A,#RADDRESS_BYTE          
+00B0 120136           86                     LCALL   W1BYTE
+00B3 120110           87                     LCALL   ACK
+00B6 120126           88                     LCALL   R1BYTE
+00B9 8A71             89                     MOV             DATA_BYTE,R2
+00BB 12011B           90                     LCALL   NACK
+00BE 120101           91                     LCALL   STOP
+00C1 22               92                     RET
+                      93     
+00C2                  94     read_two_byte:
+                      95     
+00C2 1200F4           96                     LCALL   START
+00C5 7490             97                     MOV             A,#WADDRESS_BYTE          ;
+00C7 120136           98                     LCALL   W1BYTE
+00CA 120110           99                     LCALL   ACK
+00CD E570            100                     MOV             A,COMMAND_BYTE    
+00CF 120136          101                     LCALL   W1BYTE
+00D2 120110          102                     LCALL   ACK
+00D5 1200F4          103                     LCALL   START
+00D8 7491            104                     MOV             A,#RADDRESS_BYTE          
+00DA 120136          105                     LCALL   W1BYTE
+00DD 120110          106                     LCALL   ACK
+00E0 120126          107                     LCALL   R1BYTE
+00E3 8A72            108                     MOV             MSBYTE,R2
+00E5 120110          109                     LCALL   ACK
+00E8 120126          110                     LCALL   R1BYTE
+00EB 8A73            111                     MOV             LSBYTE,R2
+00ED 12011B          112                     LCALL   NACK
+00F0 120101          113                     LCALL   STOP
+00F3 22              114                     RET              
+00F4 D292            115     START:  SETB            SDA             ;SDA=1
+00F6 D293            116             SETB            SCL             ;SCL=1
+00F8 00              117             NOP                                     ;SDA=1ºÍSCL=1±£³Ö4?s
+00F9 00              118             NOP
+00FA C292            119             CLR             SDA             ;SDA=0
+00FC 00              120             NOP                             ;SDA=0ºÍSCL=1£¨ÆðÊ¼ÐÅºÅ£©±£³Ö4?s
+00FD 00              121             NOP
+00FE C293            122             CLR             SCL             ;SCL=0
+A51 MACRO ASSEMBLER  13_8_NUMB                                                            03/24/2014 12:07:46 PAGE     3
+
+0100 22              123             RET
+0101 C292            124     STOP:   CLR     SDA                     ;SDA=0
+0103 D293            125             SETB    SCL                     ;SCL=1
+0105 00              126             NOP                                     ;ÖÕÖ¹ÐÅºÅ½¨Á¢Ê±¼ä4¦Ìs
+0106 00              127             NOP
+0107 D292            128             SETB   SDA                      ;SDA=1
+0109 00              129             NOP
+010A 00              130             NOP
+010B C293            131             CLR    SCL                      ;SCL=0
+010D C292            132             CLR    SDA                      ;SDA=0
+010F 22              133             RET        
+0110 C292            134     ACK:    CLR    SDA                      ;SDA=0
+0112 D293            135             SETB    SCL             ;SCL=1
+0114 00              136             NOP                                     ;4¦Ìs
+0115 00              137             NOP
+0116 C293            138             CLR    SCL                      ;SCL=0
+0118 D292            139             SETB   SDA                      ;SDA=1
+011A 22              140             RET    
+011B D292            141     NACK:   SETB    SDA                     ;SDA=1
+011D D293            142             SETB    SCL                     ;SCL=1
+011F 00              143             NOP                                     ;Á½ÌõNOPÖ¸ÁîÎª 4¦Ìs
+0120 00              144             NOP
+0121 C293            145             CLR     SCL                     ;SCL=0
+0123 C292            146             CLR     SDA                     ;SDA=0
+0125 22              147             RET
+                     148             
+0126 7E08            149     R1BYTE: MOV  R6,#08H            ;8Î»Ê¾Ý³¤¶ÈËÍÈëR6ÖÐ
+0128 D292            150     RLP:    SETB    SDA                     ;ÖÃSDAÊ¾ÝÏßÎªÊäÈë·½Ê½
+012A D293            151             SETB    SCL                     ;SCL=1£¬Ê¹SDAÊ¾ÝÏßÉÏµÄÊ¾ÝÓÐÐ§
+012C A292            152             MOV     C,SDA                   ;¶ÁÈëSDAÒ½Å×´Ì¬
+012E EA              153             MOV     A,R2
+012F 33              154             RLC     A                       ;½«C¶ÁÈëA
+0130 FA              155             MOV     R2,A                    ;½«A´æÈëR2
+0131 C293            156             CLR     SCL                             ;SCL=0£¬ ¼ÌÐø½ÓÊÕÊ¾Ý
+0133 DEF3            157             DJNZ    R6,RLP
+0135 22              158                     RET
+0136                 159     W1BYTE:    
+0136 7E08            160                     MOV  R6,#08H            ;8Î»Ê¾Ý³¤¶ÈËÍÈëR6ÖÐ
+0138 33              161     WLP:    RLC     A                               ;A×óÒÆ£¬ ·¢ËÍÎ»½øÈëC
+0139 9292            162             MOV     SDA,C                   ;½«·¢ËÍÎ»ËÍÈëSDAÒ½Å
+013B D293            163             SETB    SCL                     ;SCL=1£¬ Ê¹SDAÒ½ÅÉÏµÄÊ¾ÝÓÐÐ§
+013D 00              164             NOP
+013E 00              165             NOP
+013F C293            166             CLR    SCL                      ;SDAÏßÉÏÊ¾Ý±ä»¯
+0141 DEF5            167             DJNZ    R6,WLP
+0143 22              168             RET
+                     169     
+0144                 170     DATA1:                           ;ÏÔÊ¾¸ñÊ½×ª»»×Ó³ÌÐò               
+0144 7872            171             MOV  R0,#MSBYTE          
+0146 E6              172             MOV  A,@R0                       ;¶Á²É¼¯µÄ¸ß8Î»Öµ
+0147 20E720          173             JB   ACC.7,DATA2         ;ÅÐ¶Ï¸ÃÖµ·ûºÅÎ»£¬¸ºÊ×ªDATA2´¦
+014A 75F064          174     CHANG:  MOV      B,#100
+014D 84              175             DIV      AB                      ;ÕÊ³100
+014E F579            176             MOV     79H,A            ;»ñµÃ°ÙÎ»ÊËÍÏÔÊ¾»º³åÇø79Hµ¥Ôª
+0150 E5F0            177     CHANG1: MOV      A,B
+0152 75F00A          178             MOV     B,#10            
+0155 84              179             DIV     AB                        ;³100ºóµÄÓàÊ³10
+0156 F57A            180             MOV     7AH,A             ;»ñµÃÊ®Î»ÊËÍÏÔÊ¾»º³åÇø7AHµ¥Ôª
+0158 85F07B          181             MOV     7BH,B             ;¸öÎ»ÊËÍÏÔÊ¾»º³åÇø7BHµ¥Ôª
+015B 7873            182             MOV     R0,#LSBYTE        
+015D E6              183             MOV     A,@R0              ;¶ÁÈ¡²É¼¯µÄµÚ2×Ö½Ú£¨µÍ8Î»£©Öµ
+015E 20E705          184             JB              ACC.7,XIAOSU    ;ÅÐ¶Ï×î¸ßÎ»ÊÇ1×ªXIAOSU
+0161 757C00          185                     MOV             7CH,#00H                ;µÚ2×Ö½Ú×î¸ßÎ»Îª0£¬ËÍ0Öµµ½ÏÔÊ¾»º³åÇ
+                             ø7CHµ¥Ôª
+0164 2169            186                     AJMP            DATAEND
+0166 757C05          187     XIAOSU: MOV     7CH,#05H                ;µÚ2×Ö½Ú×î¸ßÎ»Îª1£¬ËÍ5µ½ÏÔÊ¾»º³åÇø7CHµ¥Ôª
+A51 MACRO ASSEMBLER  13_8_NUMB                                                            03/24/2014 12:07:46 PAGE     4
+
+0169 22              188     DATAEND:RET
+016A F4              189     DATA2:  CPL        A                    ;²É¼¯ÖµÎª¸ºÊ£¬ÇóÈ¡²¹ÂëµÄÔ­ÂëÖµ£¨È¡·´+1£©
+016B 04              190             INC        A
+016C 757910          191                     MOV             79H,#10H                ;½«ÄÜ»ñÈ¡¸ººÅ£¨-£©µÄ×ÖÐÍ´úÂëµÄÖµËÍ»
+                             º³åÇø79Hµ¥Ôª
+016F 75F064          192                     MOV      B,#100                 
+0172 84              193             DIV      AB                             ;ÇóÈ¡¸ºÊ°ÙÎ»ÊºÍÓàÊ
+0173 2150            194             AJMP    CHANG1
+                     195                        
+                     196                      
+0175                 197     DISPLAY:                  
+0175 7879            198               MOV    R0,#79H                ;ÏÔÊ¾»º³åÇøÊ×µØÖ·ËÍR0
+0177 7B01            199           MOV    R3,#01H            ;×ÖÎ»ÂëËÍR3±£´æ
+0179 EB              200           MOV    A,R3
+017A F5A0            201     LD0:  MOV    P2,A                       ;×ÖÎ»ÂëËÍÎ»Âë¶Ë¿ÚP2£¬µãÁÁ¸ÃÎ»
+017C E6              202           MOV    A,@R0              ;È¡³öÒ»Î»ÒªÏÔÊ¾Ê¾Ý
+017D 900194          203           MOV       DPTR,#TAB1              ;±íÊ×µØÖ·ËÍDPTR
+0180 93              204           MOVC   A,@A+DPTR  ;²é±í»ñÈ¡¸ÃÊ¾ÝµÄ×ÖÐÍÂë
+0181 BB0402          205               CJNE  R3,#04H,DIR1    ;ÅÐ¶Ï´øÐ¡ÊµãÎ»
+0184 547F            206               ANL   A,#7FH                  ;»ñÈ¡´øÐ¡Êµã×ÖÐÍÂë        
+0186 F580            207     DIR1: MOV    P0,A                       ;×ÖÐÍÂëËÍ¶ÎÂë¶Ë¿ÚP0
+0188 31A7            208           ACALL  DL11                       ;µ÷ÓÃÑÓÊ±×Ó³ÌÐò
+018A 08              209               INC    R0                             ;»º³åÇøµØÖ·+1
+018B EB              210           MOV    A,R3                       ;È¡³öÎ»Âë
+018C 20E504          211           JB     ACC.5,LD1          ;ÅÐ¶Ï6Î»ÊÂë¹ÜÏÔÊ¾ÍêÂð£¿ÏÔÊ¾Íê×ªLD1
+018F 23              212           RL     A                          ;Î´Íê£¬×óÒÆÒ»Î»
+0190 FB              213           MOV    R3,A                       ;±£´æÎ»Âë
+0191 217A            214           AJMP   LD0
+0193 22              215     LD1:  RET                                       ;×Ó³ÌÐò·µ»Ø
+0194 C0F9A4B0        216     TAB1:  DB    0C0H,0F9H,0A4H,0B0H,99H,92H
+0198 9992                    
+019A 82F88090        217           DB     82H,0F8H,80H,90H,88H,83H,0C6H,0A1H    
+019E 8883C6A1                
+01A2 868EBFFF        218           DB     86H,8EH,0BFH,0FFH,0FFH
+01A6 FF                      
+01A7 7F02            219     DL11: MOV    R7,#02H
+01A9 7EFF            220     DL:   MOV    R6,#0FFH
+01AB DEFE            221     DL6:  DJNZ   R6,DL6
+01AD DFFA            222           DJNZ   R7,DL
+01AF 22              223           RET            
+                     224               END
+A51 MACRO ASSEMBLER  13_8_NUMB                                                            03/24/2014 12:07:46 PAGE     5
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+ACK. . . . . . . .  C ADDR   0110H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+CHANG. . . . . . .  C ADDR   014AH   A   
+CHANG1 . . . . . .  C ADDR   0150H   A   
+COMMAND_BYTE . . .  N NUMB   0070H   A   
+DATA1. . . . . . .  C ADDR   0144H   A   
+DATA2. . . . . . .  C ADDR   016AH   A   
+DATAEND. . . . . .  C ADDR   0169H   A   
+DATA_BYTE. . . . .  N NUMB   0071H   A   
+DIR1 . . . . . . .  C ADDR   0186H   A   
+DISPLAY. . . . . .  C ADDR   0175H   A   
+DL . . . . . . . .  C ADDR   01A9H   A   
+DL11 . . . . . . .  C ADDR   01A7H   A   
+DL6. . . . . . . .  C ADDR   01ABH   A   
+LD0. . . . . . . .  C ADDR   017AH   A   
+LD1. . . . . . . .  C ADDR   0193H   A   
+LSBYTE . . . . . .  N NUMB   0073H   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+MAIN1. . . . . . .  C ADDR   0030H   A   
+MSBYTE . . . . . .  N NUMB   0072H   A   
+NACK . . . . . . .  C ADDR   011BH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+R1BYTE . . . . . .  C ADDR   0126H   A   
+RADDRESS_BYTE. . .  N NUMB   0091H   A   
+READ_ONE_BYTE. . .  C ADDR   0098H   A   
+READ_TWO_BYTE. . .  C ADDR   00C2H   A   
+RLP. . . . . . . .  C ADDR   0128H   A   
+SCL. . . . . . . .  B ADDR   0090H.3 A   
+SDA. . . . . . . .  B ADDR   0090H.2 A   
+STANDALONE . . . .  C ADDR   003BH   A   
+START. . . . . . .  C ADDR   00F4H   A   
+STOP . . . . . . .  C ADDR   0101H   A   
+TAB1 . . . . . . .  C ADDR   0194H   A   
+W1BYTE . . . . . .  C ADDR   0136H   A   
+WADDRESS_BYTE. . .  N NUMB   0090H   A   
+WLP. . . . . . . .  C ADDR   0138H   A   
+WONE_BYTE. . . . .  C ADDR   0052H   A   
+WTWO_BYTE. . . . .  C ADDR   0071H   A   
+XIAOSU . . . . . .  C ADDR   0166H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
